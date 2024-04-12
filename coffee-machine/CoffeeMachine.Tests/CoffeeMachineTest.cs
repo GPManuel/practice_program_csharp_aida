@@ -57,7 +57,7 @@ namespace CoffeeMachine.Tests
         }
 
         [Test]
-        public void order_chocolate_with_two_sugar_and_uses_stick()
+        public void order_drink_with_two_sugar_and_uses_stick()
         {
             _coffeeMachine.SelectChocolate();
             _coffeeMachine.AddOneSpoonOfSugar();
