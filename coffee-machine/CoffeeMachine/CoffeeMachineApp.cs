@@ -29,6 +29,8 @@ public class CoffeeMachineApp
 
     public void AddOneSpoonOfSugar()
     {
+        if (_spoonOfSugar == 2)
+            return;
         _spoonOfSugar++;
     }
 
