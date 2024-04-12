@@ -11,17 +11,17 @@ namespace CoffeeMachine.Tests
             //Given
             var driver = Substitute.For<Driver>();
             var coffeeMachine = new CoffeeMachineApp(driver);
-            var expectedOrder = new Order()
-            {
-                Drink = Drink.Coffee
-            };
 
             //When
             coffeeMachine.SelectCoffee();
             coffeeMachine.MakeDrink();
 
             //Then
-            driver.Received(1).SendOrder(Arg.Is<Order>(o => o.Drink == expectedOrder.Drink));
+            var expectedOrder = new Order()
+            {
+                Drink = Drink.Coffee
+            };
+            driver.Received(1).SendOrder(expectedOrder);
         }
 
         [Test]
@@ -29,35 +29,33 @@ namespace CoffeeMachine.Tests
         {
             var driver = Substitute.For<Driver>();
             var coffeeMachine = new CoffeeMachineApp(driver);
+            
+            coffeeMachine.SelectTea();
+            coffeeMachine.MakeDrink();
+
             var expectedOrder = new Order()
             {
                 Drink = Drink.Tea
             };
-
-            coffeeMachine.SelectTea();
-            coffeeMachine.MakeDrink();
-
-            driver.Received(1).SendOrder(Arg.Is<Order>(o => o.Drink == expectedOrder.Drink));
+            driver.Received(1).SendOrder(expectedOrder);
         }
 
         [Test]
-        public void order_chocolate_with_one_sugar()
+        public void order_chocolate_with_one_sugar_and_uses_stick()
         {
             var driver = Substitute.For<Driver>();
             var coffeeMachine = new CoffeeMachineApp(driver);
-            var expectedOrder = new Order()
-            {
-                Drink = Drink.Chocolate,
-                SpoonOfSugar = 1
-            };
 
             coffeeMachine.SelectChocolate();
             coffeeMachine.AddOneSpoonOfSugar();
             coffeeMachine.MakeDrink();
 
-            driver.Received(1).SendOrder(Arg.Is<Order>(o => o.Drink == expectedOrder.Drink 
-                                                            && o.SpoonOfSugar == expectedOrder.SpoonOfSugar
-                                                            && o.UseStick == expectedOrder.UseStick));
+            var expectedOrder = new Order()
+            {
+                Drink = Drink.Chocolate,
+                SpoonOfSugar = 1
+            };
+            driver.Received(1).SendOrder(expectedOrder);
         }
     }
 
@@ -109,7 +107,7 @@ namespace CoffeeMachine.Tests
         void SendOrder(Order order);
     }
 
-    public class Order
+    public record Order
     {
         public Drink Drink { get; set; }
         public int SpoonOfSugar { get; set; }
