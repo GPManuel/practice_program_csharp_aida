@@ -2,7 +2,6 @@ namespace CoffeeMachine;
 
 public class CoffeeMachineApp
 {
-    private const int MaxSugarSpoons = 2;
     private readonly DrinkMakerDriver _driver;
 
     private readonly Order _currentOrder;
@@ -31,9 +30,7 @@ public class CoffeeMachineApp
 
     public void AddOneSpoonOfSugar()
     {
-        if (_currentOrder.SpoonOfSugar == MaxSugarSpoons)
-            return;
-        _currentOrder.SpoonOfSugar++;
+        _currentOrder.AddSpoonOfSugar();
     }
 
     public void MakeDrink()
