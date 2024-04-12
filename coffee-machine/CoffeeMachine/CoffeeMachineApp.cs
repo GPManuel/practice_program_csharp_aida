@@ -3,12 +3,12 @@ namespace CoffeeMachine;
 public class CoffeeMachineApp
 {
     private const int MaxSugarSpoons = 2;
-    private readonly DriverDrinkMaker _driver;
+    private readonly DrinkMakerDriver _driver;
 
     private Drink _currentDrink;
     private int _spoonOfSugar;
 
-    public CoffeeMachineApp(DriverDrinkMaker driver)
+    public CoffeeMachineApp(DrinkMakerDriver driver)
     {
         _driver = driver;
     }

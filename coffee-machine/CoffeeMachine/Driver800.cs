@@ -2,7 +2,7 @@
 
 namespace CoffeeMachine.Tests;
 
-public class Driver800 : DriverDrinkMaker
+public class Driver800 : DrinkMakerDriver
 {
     private readonly DrinkMaker _drinkMaker;
 
