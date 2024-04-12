@@ -55,5 +55,21 @@ namespace CoffeeMachine.Tests
             };
             _driver.Received(1).SendOrder(expectedOrder);
         }
+
+        [Test]
+        public void order_chocolate_with_two_sugar_and_uses_stick()
+        {
+            _coffeeMachine.SelectChocolate();
+            _coffeeMachine.AddOneSpoonOfSugar();
+            _coffeeMachine.AddOneSpoonOfSugar();
+            _coffeeMachine.MakeDrink();
+
+            var expectedOrder = new Order()
+            {
+                Drink = Drink.Chocolate,
+                SpoonOfSugar = 2
+            };
+            _driver.Received(1).SendOrder(expectedOrder);
+        }
     }
 }

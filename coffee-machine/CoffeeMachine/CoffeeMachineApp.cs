@@ -29,7 +29,7 @@ public class CoffeeMachineApp
 
     public void AddOneSpoonOfSugar()
     {
-        _spoonOfSugar = 1;
+        _spoonOfSugar++;
     }
 
     public void MakeDrink()
