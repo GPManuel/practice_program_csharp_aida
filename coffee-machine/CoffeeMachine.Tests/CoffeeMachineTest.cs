@@ -25,7 +25,7 @@ namespace CoffeeMachine.Tests
             {
                 Drink = Drink.Coffee
             };
-            _driver.Received(1).SendOrder(expectedOrder);
+            _driver.Received(1).SendOrder(Arg.Is<Order>(o => o.Drink == expectedOrder.Drink));
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace CoffeeMachine.Tests
             {
                 Drink = Drink.Tea
             };
-            _driver.Received(1).SendOrder(expectedOrder);
+            _driver.Received(1).SendOrder(Arg.Is<Order>(o => o.Drink == expectedOrder.Drink));
         }
 
         [Test]
@@ -53,7 +53,9 @@ namespace CoffeeMachine.Tests
                 Drink = Drink.Chocolate,
                 SpoonOfSugar = 1
             };
-            _driver.Received(1).SendOrder(expectedOrder);
+            _driver.Received(1).SendOrder(Arg.Is<Order>(o => o.Drink == expectedOrder.Drink
+                                                             && o.SpoonOfSugar == expectedOrder.SpoonOfSugar
+                                                             && o.UseStick));
         }
 
         [Test]
@@ -69,7 +71,9 @@ namespace CoffeeMachine.Tests
                 Drink = Drink.Chocolate,
                 SpoonOfSugar = 2
             };
-            _driver.Received(1).SendOrder(expectedOrder);
+            _driver.Received(1).SendOrder(Arg.Is<Order>(o => o.Drink == expectedOrder.Drink
+                                                             && o.SpoonOfSugar == expectedOrder.SpoonOfSugar
+                                                             && o.UseStick));
         }
 
         [Test]
@@ -86,7 +90,9 @@ namespace CoffeeMachine.Tests
                 Drink = Drink.Chocolate,
                 SpoonOfSugar = 2
             };
-            _driver.Received(1).SendOrder(expectedOrder);
+            _driver.Received(1).SendOrder(Arg.Is<Order>(o => o.Drink == expectedOrder.Drink
+                                                             && o.SpoonOfSugar == expectedOrder.SpoonOfSugar
+                                                             && o.UseStick));
         }
     }
 }
