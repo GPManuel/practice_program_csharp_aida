@@ -5,47 +5,39 @@ public class CoffeeMachineApp
     private const int MaxSugarSpoons = 2;
     private readonly DrinkMakerDriver _driver;
 
-    private Drink _currentDrink;
-    private int _spoonOfSugar;
+    private readonly Order _currentOrder;
 
     public CoffeeMachineApp(DrinkMakerDriver driver)
     {
         _driver = driver;
+
+        _currentOrder = new Order();
     }
 
     public void SelectCoffee()
     {
-        _currentDrink = Drink.Coffee;
+        _currentOrder.Drink = Drink.Coffee;
     }
 
     public void SelectTea()
     {
-        _currentDrink = Drink.Tea;
+        _currentOrder.Drink = Drink.Tea;
     }
 
     public void SelectChocolate()
     {
-        _currentDrink = Drink.Chocolate;
+        _currentOrder.Drink = Drink.Chocolate;
     }
 
     public void AddOneSpoonOfSugar()
     {
-        if (_spoonOfSugar == MaxSugarSpoons)
+        if (_currentOrder.SpoonOfSugar == MaxSugarSpoons)
             return;
-        _spoonOfSugar++;
+        _currentOrder.SpoonOfSugar++;
     }
 
     public void MakeDrink()
     {
-        _driver.SendOrder(GenerateOrder());
-    }
-
-    private Order GenerateOrder()
-    {
-        return new Order()
-        {
-            Drink = _currentDrink,
-            SpoonOfSugar = _spoonOfSugar
-        };
+        _driver.SendOrder(_currentOrder);
     }
 }
