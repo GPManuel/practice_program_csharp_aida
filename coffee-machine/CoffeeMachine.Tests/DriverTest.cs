@@ -40,17 +40,18 @@ public class DriverTest
         _drinkMaker.Received(1).Execute("T::");
     }
 
-    [Test]
-    public void transform_chocolate_with_one_spoon_of_sugar_into_command()
+    [TestCase(1)]
+    [TestCase(2)]
+    public void transform_chocolate_with_one_spoon_of_sugar_into_command(int spoons)
     {
         var givenOrder = new Order()
         {
             Drink = Drink.Chocolate,
-            SpoonOfSugar = 1
+            SpoonOfSugar = spoons
         };
 
         _driver.SendOrder(givenOrder);
 
-        _drinkMaker.Received(1).Execute("H:1:0");
+        _drinkMaker.Received(1).Execute($"H:{spoons}:0");
     }
 }
