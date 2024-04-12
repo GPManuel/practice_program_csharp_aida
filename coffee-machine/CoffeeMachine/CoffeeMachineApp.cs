@@ -2,6 +2,7 @@ namespace CoffeeMachine;
 
 public class CoffeeMachineApp
 {
+    private const int MaxSugarSpoons = 2;
     private readonly Driver _driver;
 
     private Drink _currentDrink;
@@ -29,7 +30,7 @@ public class CoffeeMachineApp
 
     public void AddOneSpoonOfSugar()
     {
-        if (_spoonOfSugar == 2)
+        if (_spoonOfSugar == MaxSugarSpoons)
             return;
         _spoonOfSugar++;
     }
