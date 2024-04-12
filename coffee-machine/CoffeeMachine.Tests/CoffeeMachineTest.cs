@@ -6,12 +6,12 @@ namespace CoffeeMachine.Tests
     public class CoffeeMachineTest
     {
         private CoffeeMachineApp _coffeeMachine;
-        private Driver _driver;
+        private DriverDrinkMaker _driver;
 
         [SetUp]
         public void SetUp()
         {
-            _driver = Substitute.For<Driver>();
+            _driver = Substitute.For<DriverDrinkMaker>();
             _coffeeMachine = new CoffeeMachineApp(_driver);
         }
 

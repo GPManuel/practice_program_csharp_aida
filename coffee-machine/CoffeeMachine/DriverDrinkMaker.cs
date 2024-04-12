@@ -1,6 +1,6 @@
 namespace CoffeeMachine;
 
-public interface Driver
+public interface DriverDrinkMaker
 {
     void SendOrder(Order order);
 }
