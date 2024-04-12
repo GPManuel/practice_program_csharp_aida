@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using System;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace CoffeeMachine.Tests;
@@ -13,12 +14,26 @@ public class DriverTest
         {
             Drink = Drink.Coffee
         };
-
         var driver = new Driver800(drinkMaker);
 
         driver.SendOrder(givenOrder);
 
         drinkMaker.Received(1).Execute("C::");
+    }
+
+    [Test]
+    public void transform_tea_order_into_command()
+    {
+        var drinkMaker = Substitute.For<DrinkMaker>();
+        var givenOrder = new Order()
+        {
+            Drink = Drink.Tea
+        };
+        var driver = new Driver800(drinkMaker);
+
+        driver.SendOrder(givenOrder);
+
+        drinkMaker.Received(1).Execute("T::");
     }
 }
 
@@ -31,8 +46,16 @@ public class Driver800 : Driver
         _drinkMaker = drinkMaker;
     }
 
-    public void SendOrder(Order givenOrder)
+    public void SendOrder(Order order)
     {
-        _drinkMaker.Execute("C::");
+        _drinkMaker.Execute($"{TranslateDrinkTypeToCommandFormat(order.Drink)}::");
     }
+
+    private string TranslateDrinkTypeToCommandFormat(Drink drink) =>
+        drink switch
+        {
+            Drink.Coffee => "C",
+            Drink.Tea => "T",
+            _ => throw new NotImplementedException()
+        };
 }
