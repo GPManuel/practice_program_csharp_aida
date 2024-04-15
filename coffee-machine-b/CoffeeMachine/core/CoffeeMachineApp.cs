@@ -12,8 +12,8 @@ public class CoffeeMachineApp
     public CoffeeMachineApp(DrinkMakerDriver drinkMakerDriver, Dictionary<DrinkType, decimal> prices)
     {
         _drinkMakerDriver = drinkMakerDriver;
-        _order = new Order();
         _prices = prices;
+        InitializeState();
     }
 
     public void SelectChocolate()
@@ -52,12 +52,17 @@ public class CoffeeMachineApp
         if (IsThereEnoughMoney())
         {
             _drinkMakerDriver.Send(_order);
-            _totalMoney = 0;
-            _order = new Order();
+            InitializeState();
             return;
         }
 
         _drinkMakerDriver.Notify(Message.Create($"You are missing {ComputeMissingMoney()}"));
+    }
+
+    private void InitializeState()
+    {
+        _totalMoney = 0;
+        _order = new Order();
     }
 
     private decimal ComputeMissingMoney()
