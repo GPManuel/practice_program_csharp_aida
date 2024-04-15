@@ -52,6 +52,7 @@ public class CoffeeMachineApp
         if (IsThereEnoughMoney())
         {
             _drinkMakerDriver.Send(_order);
+            _totalMoney = 0;
             _order = new Order();
             return;
         }
@@ -59,9 +60,9 @@ public class CoffeeMachineApp
         _drinkMakerDriver.Notify(Message.Create($"You are missing {ComputeMissingMoney()}"));
     }
 
-    private double ComputeMissingMoney()
+    private decimal ComputeMissingMoney()
     {
-        return 0.2;
+        return  _prices[_order.GetDrinkType()] - _totalMoney;
     }
 
     private bool IsThereEnoughMoney()

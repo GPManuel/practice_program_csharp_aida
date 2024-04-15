@@ -137,6 +137,44 @@ public class CoffeeMachineAppTest
         _drinkMakerDriver.Received().Notify(Message.Create("You are missing 0,2"));
     }
 
+    [Test]
+    public void make_coffee_without_enough_money()
+    {
+        _coffeeMachineApp = PaidCoffeeMachine();
+
+        _coffeeMachineApp.SelectCoffee();
+        _coffeeMachineApp.AddMoney(0.3m);
+        _coffeeMachineApp.MakeDrink();
+
+        _drinkMakerDriver.Received().Notify(Message.Create("You are missing 0,3"));
+    }
+
+    [Test]
+    public void make_chocolate_without_enough_money()
+    {
+        _coffeeMachineApp = PaidCoffeeMachine();
+
+        _coffeeMachineApp.SelectChocolate();
+        _coffeeMachineApp.AddMoney(0.1m);
+        _coffeeMachineApp.MakeDrink();
+
+        _drinkMakerDriver.Received().Notify(Message.Create("You are missing 0,4"));
+    }
+
+    [Test]
+    public void reset_amount_after_making_drink()
+    {
+        _coffeeMachineApp = PaidCoffeeMachine();
+
+        _coffeeMachineApp.SelectCoffee();
+        _coffeeMachineApp.AddMoney(0.6m);
+        _coffeeMachineApp.MakeDrink();
+        _coffeeMachineApp.SelectTea();
+        _coffeeMachineApp.MakeDrink();
+
+        _drinkMakerDriver.Received().Notify(Message.Create("You are missing 0,4"));
+    }
+
     private CoffeeMachineApp FreeCoffeeMachine()
     {
         var prices = new Dictionary<DrinkType, decimal>()
