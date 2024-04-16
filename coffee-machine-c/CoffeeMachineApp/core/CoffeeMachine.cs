@@ -6,14 +6,18 @@ public class CoffeeMachine
 {
     private readonly DrinkMakerDriver _drinkMakerDriver;
     private readonly Dictionary<DrinkType, decimal> _prices;
+    private readonly MessageCreator _messageCreator;
     private Order _order;
     private decimal _totalMoney;
-
-    public CoffeeMachine(DrinkMakerDriver drinkMakerDriver, Dictionary<DrinkType, decimal> prices)
+    private readonly WeirdMessageCreator _weirdMessageCreator;
+    
+    public CoffeeMachine(DrinkMakerDriver drinkMakerDriver, Dictionary<DrinkType, decimal> prices, MessageCreator messageCreator)
     {
         _drinkMakerDriver = drinkMakerDriver;
         _prices = prices;
+        _messageCreator = messageCreator;
         InitializeState();
+        _weirdMessageCreator = new WeirdMessageCreator();
     }
 
     public void SelectChocolate()
@@ -45,7 +49,7 @@ public class CoffeeMachine
     {
         if (NoDrinkWasSelected())
         {
-            _drinkMakerDriver.Notify(ComposeSelectDrinkMessage());
+            _drinkMakerDriver.Notify(_messageCreator.ComposeSelectDrinkMessage());
             return;
         }
 
@@ -56,7 +60,8 @@ public class CoffeeMachine
         }
         else
         {
-            _drinkMakerDriver.Notify(Message.Create($"You are missing {ComputeMissingMoney()}"));
+            var missingMoney = ComputeMissingMoney();
+            _drinkMakerDriver.Notify(_weirdMessageCreator.ComposeMissingMoneyMessage(missingMoney));
         }
     }
 
@@ -79,11 +84,5 @@ public class CoffeeMachine
     private bool NoDrinkWasSelected()
     {
         return _order.GetDrinkType() == DrinkType.None;
-    }
-
-    private Message ComposeSelectDrinkMessage()
-    {
-        const string message = "Please, select a drink!";
-        return Message.Create(message);
     }
 }

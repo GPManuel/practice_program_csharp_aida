@@ -16,10 +16,12 @@ public class CoffeeMachineTest
     private CoffeeMachine _coffeeMachine;
     private DrinkMakerDriver _drinkMakerDriver;
     private Dictionary<DrinkType, decimal> _pricesByDrinkType;
+    private MessageCreator _messageCreator;
 
     [SetUp]
     public void SetUp()
     {
+        _messageCreator = Substitute.For<MessageCreator>();
         _drinkMakerDriver = Substitute.For<DrinkMakerDriver>();
         _pricesByDrinkType = new Dictionary<DrinkType, decimal>()
         {
@@ -105,21 +107,23 @@ public class CoffeeMachineTest
     public void Warns_The_User_When_No_Drink_Was_Selected()
     {
         _coffeeMachine = FreeCoffeeMachine();
+        var message = GivenSelectDrinkMessage();
 
         _coffeeMachine.MakeDrink();
 
-        _drinkMakerDriver.Received().Notify(Message.Create(SelectDrinkMessage));
+        _drinkMakerDriver.Received().Notify(message);
     }
 
     [Test]
     public void Resets_Drink_After_Making_Drink()
     {
         AfterMakingDrink();
+        var message = GivenSelectDrinkMessage();
 
         _coffeeMachine.MakeDrink();
 
         _drinkMakerDriver.Received(1).Send(Arg.Any<Order>());
-        _drinkMakerDriver.Received().Notify(Message.Create(SelectDrinkMessage));
+        _drinkMakerDriver.Received().Notify(message);
     }
 
     [Test]
@@ -172,7 +176,7 @@ public class CoffeeMachineTest
 
         _drinkMakerDriver.Received().Notify(Message.Create($"You are missing {ChocolatePrice - amount}"));
     }
-    
+
     [Test]
     public void Make_Tea_With_Enough_Money()
     {
@@ -213,12 +217,20 @@ public class CoffeeMachineTest
             { DrinkType.Coffee, 0 },
             { DrinkType.Tea, 0 }
         };
-         return new CoffeeMachine(_drinkMakerDriver, prices);
+         return new CoffeeMachine(_drinkMakerDriver, prices, _messageCreator);
     }
+
+    private Message GivenSelectDrinkMessage()
+    {
+        var message = Message.Create(SelectDrinkMessage);
+        _messageCreator.ComposeSelectDrinkMessage().Returns(message);
+        return message;
+    }
+
     private CoffeeMachine PaidCoffeeMachine()
     {
         var prices = _pricesByDrinkType;
-        return new CoffeeMachine(_drinkMakerDriver, prices);
+        return new CoffeeMachine(_drinkMakerDriver, prices, _messageCreator);
     }
 
     private List<Order> CaptureSentOrders()
