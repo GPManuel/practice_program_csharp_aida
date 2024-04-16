@@ -107,7 +107,7 @@ public class CoffeeMachineTest
     public void Warns_The_User_When_No_Drink_Was_Selected()
     {
         _coffeeMachine = FreeCoffeeMachine();
-        var message = GivenSelectDrinkMessage();
+        var message = GetSelectDrinkMessage();
 
         _coffeeMachine.MakeDrink();
 
@@ -118,7 +118,7 @@ public class CoffeeMachineTest
     public void Resets_Drink_After_Making_Drink()
     {
         AfterMakingDrink();
-        var message = GivenSelectDrinkMessage();
+        var message = GetSelectDrinkMessage();
 
         _coffeeMachine.MakeDrink();
 
@@ -143,12 +143,14 @@ public class CoffeeMachineTest
     {
         var amount = 0.2m;
         _coffeeMachine = PaidCoffeeMachine();
+        var missingMoney= TeaPrice - amount;
+        var message = GetMissingMoneyMessage(missingMoney);
 
         _coffeeMachine.SelectTea();
         _coffeeMachine.AddMoney(amount);
         _coffeeMachine.MakeDrink();
 
-        _drinkMakerDriver.Received().Notify(Message.Create($"You are missing {TeaPrice - amount}"));
+        _drinkMakerDriver.Received().Notify(message);
     }
 
     [Test]
@@ -156,12 +158,14 @@ public class CoffeeMachineTest
     {
         var amount = 0.3m;
         _coffeeMachine = PaidCoffeeMachine();
+        var missingMoney = CoffeePrice - amount;
+        var message = GetMissingMoneyMessage(missingMoney);
 
         _coffeeMachine.SelectCoffee();
         _coffeeMachine.AddMoney(amount);
         _coffeeMachine.MakeDrink();
 
-        _drinkMakerDriver.Received().Notify(Message.Create($"You are missing {CoffeePrice - amount}"));
+        _drinkMakerDriver.Received().Notify(message);
     }
 
     [Test]
@@ -169,12 +173,14 @@ public class CoffeeMachineTest
     {
         var amount = 0.1m;
         _coffeeMachine = PaidCoffeeMachine();
+        var missingMoney = ChocolatePrice - amount;
+        var message = GetMissingMoneyMessage(missingMoney);
 
         _coffeeMachine.SelectChocolate();
         _coffeeMachine.AddMoney(amount);
         _coffeeMachine.MakeDrink();
 
-        _drinkMakerDriver.Received().Notify(Message.Create($"You are missing {ChocolatePrice - amount}"));
+        _drinkMakerDriver.Received().Notify(message);
     }
 
     [Test]
@@ -194,11 +200,12 @@ public class CoffeeMachineTest
     public void Reset_Money_After_Making_Drink()
     {
         AfterPayingAndMakingDrink();
+        var message = GetMissingMoneyMessage(TeaPrice);
 
         _coffeeMachine.SelectTea();
         _coffeeMachine.MakeDrink();
 
-        _drinkMakerDriver.Received().Notify(Message.Create($"You are missing {TeaPrice}"));
+        _drinkMakerDriver.Received().Notify(message);
     }
 
     private void AfterPayingAndMakingDrink()
@@ -217,20 +224,27 @@ public class CoffeeMachineTest
             { DrinkType.Coffee, 0 },
             { DrinkType.Tea, 0 }
         };
-         return new CoffeeMachine(_drinkMakerDriver, prices, _messageCreator);
-    }
-
-    private Message GivenSelectDrinkMessage()
-    {
-        var message = Message.Create(SelectDrinkMessage);
-        _messageCreator.ComposeSelectDrinkMessage().Returns(message);
-        return message;
+        return new CoffeeMachine(_drinkMakerDriver, prices, _messageCreator);
     }
 
     private CoffeeMachine PaidCoffeeMachine()
     {
         var prices = _pricesByDrinkType;
         return new CoffeeMachine(_drinkMakerDriver, prices, _messageCreator);
+    }
+
+    private Message GetMissingMoneyMessage(decimal missingMoney)
+    {
+        var message = Message.Create($"You are missing {missingMoney}");
+        _messageCreator.ComposeMissingMoneyMessage(missingMoney).Returns(message);
+        return message;
+    }
+
+    private Message GetSelectDrinkMessage()
+    {
+        var message = Message.Create(SelectDrinkMessage);
+        _messageCreator.ComposeSelectDrinkMessage().Returns(message);
+        return message;
     }
 
     private List<Order> CaptureSentOrders()

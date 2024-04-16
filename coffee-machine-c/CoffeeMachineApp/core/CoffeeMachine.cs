@@ -9,15 +9,13 @@ public class CoffeeMachine
     private readonly MessageCreator _messageCreator;
     private Order _order;
     private decimal _totalMoney;
-    private readonly WeirdMessageCreator _weirdMessageCreator;
-    
+
     public CoffeeMachine(DrinkMakerDriver drinkMakerDriver, Dictionary<DrinkType, decimal> prices, MessageCreator messageCreator)
     {
         _drinkMakerDriver = drinkMakerDriver;
         _prices = prices;
         _messageCreator = messageCreator;
         InitializeState();
-        _weirdMessageCreator = new WeirdMessageCreator();
     }
 
     public void SelectChocolate()
@@ -61,7 +59,7 @@ public class CoffeeMachine
         else
         {
             var missingMoney = ComputeMissingMoney();
-            _drinkMakerDriver.Notify(_weirdMessageCreator.ComposeMissingMoneyMessage(missingMoney));
+            _drinkMakerDriver.Notify(_messageCreator.ComposeMissingMoneyMessage(missingMoney));
         }
     }
 
