@@ -2,7 +2,7 @@
 
 namespace MarsRover;
 
-internal class Location
+public class Location
 {
     private readonly Direction _direction;
     private readonly Coordinates _coordinates;
@@ -17,7 +17,7 @@ internal class Location
     {
         return new Location(_direction.RotateLeft(), _coordinates);
     }
-
+    
     public Location RotateRight()
     {
         return new Location(_direction.RotateRight(), _coordinates);

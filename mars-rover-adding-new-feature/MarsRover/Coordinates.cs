@@ -1,6 +1,6 @@
 namespace MarsRover;
 
-internal record Coordinates
+public record Coordinates
 {
     private readonly int _x;
     private readonly int _y;

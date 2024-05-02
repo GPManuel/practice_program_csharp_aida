@@ -1,6 +1,6 @@
 namespace MarsRover;
 
-internal abstract record Direction
+public abstract record Direction
 {
     internal static Direction CreateEast()
     {

@@ -17,26 +17,30 @@ namespace MarsRover
 
         public void Receive(string commandsSequence)
         {
-            var commands = commandsSequence.Select(Char.ToString).ToList();
-            foreach (var command in commands.ToList())
+            var commandsRepresentations = commandsSequence.Select(Char.ToString).ToList();
+            foreach (var commandRepresentation in commandsRepresentations.ToList())
             {
-                if (command.Equals("l"))
+                Command command;
+                if (commandRepresentation.Equals("l"))
                 {
-                    _location = _location.RotateLeft();
+                    command = new RotationLeft();
                 }
-                else if (command.Equals("r"))
+                else if (commandRepresentation.Equals("r"))
                 {
-                    _location = _location.RotateRight();
+                    command = new RotationRight();
                 }
-                else if (command.Equals("f"))
+                else if (commandRepresentation.Equals("f"))
                 {
-                    _location = _location.Move(Displacement);
+                    command = new MovementForward(Displacement);
                 }
                 else
                 {
-                    _location = _location.Move(-Displacement);
+                    command = new MovementBackward(Displacement);
                 }
+                _location = command.Execute(_location);
             }
+
+
         }
 
         public override bool Equals(object obj)
@@ -61,5 +65,56 @@ namespace MarsRover
         {
             return $"{nameof(_location)}: {_location}";
         }
+    }
+
+    public class MovementBackward : Command
+    {
+        private readonly int _displacement;
+
+        public MovementBackward(int displacement)
+        {
+            _displacement = displacement;
+        }
+
+        public Location Execute(Location location)
+        {
+            return location.Move(-_displacement);
+        }
+    }
+
+    public class MovementForward : Command
+    {
+        private readonly int _displacement;
+
+        public MovementForward(int displacement)
+        {
+            _displacement = displacement;
+        }
+
+        public Location Execute(Location location)
+        {
+            return location.Move(_displacement);
+        }
+    }
+
+    public class RotationRight : Command
+    {
+        public Location Execute(Location location)
+        {
+            return location.RotateRight();
+        }
+    }
+
+    public class RotationLeft : Command
+    {
+        public Location Execute(Location location)
+        {
+            return location.RotateLeft();
+        }
+    }
+
+    public interface Command
+    {
+        public Location Execute(Location location);
     }
 }
