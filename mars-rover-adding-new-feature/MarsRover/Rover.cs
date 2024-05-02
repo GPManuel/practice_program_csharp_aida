@@ -12,43 +12,39 @@ namespace MarsRover
 
         public Rover(int x, int y, string direction)
         {
-            _direction = DirectionMapper.Create(direction);
-            SetCoordinates(x, y);
+            var direction1 = DirectionMapper.Create(direction);
+            var coordinates = new Coordinates(x, y);
+            SetLocation(direction1, coordinates);
         }
 
-        private void SetCoordinates(int x, int y)
+        private void SetLocation(Direction direction, Coordinates coordinates)
         {
-            _coordinates = new Coordinates(x, y);
+            _direction = direction;
+            _coordinates = coordinates;
         }
 
         public void Receive(string commandsSequence)
         {
-            var commands = ExtractCommands(commandsSequence);
-            commands.ToList().ForEach(Execute);
-        }
+            var commands = commandsSequence.Select(Char.ToString).ToList();
+            foreach (var command in commands.ToList())
+            {
+                if (command.Equals("l"))
+                {
+                    SetLocation(_direction.RotateLeft(), _coordinates);
+                }
+                else if (command.Equals("r"))
+                {
+                    SetLocation(_direction.RotateRight(), _coordinates);
 
-        private IList<string> ExtractCommands(string commandsSequence)
-        {
-            return commandsSequence.Select(Char.ToString).ToList();
-        }
-
-        private void Execute(string command)
-        {
-            if (command.Equals("l"))
-            {
-                _direction = _direction.RotateLeft();
-            }
-            else if (command.Equals("r"))
-            {
-                _direction = _direction.RotateRight();
-            }
-            else if (command.Equals("f"))
-            {
-                _coordinates = _direction.Move(_coordinates, Displacement);
-            }
-            else
-            {
-                _coordinates = _direction.Move(_coordinates, -Displacement);
+                }
+                else if (command.Equals("f"))
+                {
+                    SetLocation(_direction, _direction.Move(_coordinates, Displacement));
+                }
+                else
+                {
+                    SetLocation(_direction, _direction.Move(_coordinates, -Displacement));
+                }
             }
         }
 
