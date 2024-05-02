@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace MarsRover
 {
@@ -7,40 +6,27 @@ namespace MarsRover
     {
         private const int Displacement = 1;
         private Location _location;
+        private readonly NASACommunicationProtocol _communicationProtocol;
 
         public Rover(int x, int y, string direction)
         {
-            var direction1 = DirectionMapper.Create(direction);
-            var coordinates = new Coordinates(x, y);
-            _location = new Location(direction1, coordinates);
+            _location = new Location(DirectionMapper.Create(direction), new Coordinates(x, y));
+            _communicationProtocol = new NASACommunicationProtocol();
         }
 
         public void Receive(string commandsSequence)
         {
-            var commandsRepresentations = commandsSequence.Select(Char.ToString).ToList();
-            foreach (var commandRepresentation in commandsRepresentations.ToList())
+            var commands = _communicationProtocol.CreateCommands(commandsSequence, Displacement);
+
+            Execute(commands);
+        }
+
+        private void Execute(List<Command> commands)
+        {
+            foreach (var command in commands)
             {
-                Command command;
-                if (commandRepresentation.Equals("l"))
-                {
-                    command = new RotationLeft();
-                }
-                else if (commandRepresentation.Equals("r"))
-                {
-                    command = new RotationRight();
-                }
-                else if (commandRepresentation.Equals("f"))
-                {
-                    command = new MovementForward(Displacement);
-                }
-                else
-                {
-                    command = new MovementBackward(Displacement);
-                }
                 _location = command.Execute(_location);
             }
-
-
         }
 
         public override bool Equals(object obj)
