@@ -5,13 +5,13 @@ namespace MarsRover;
 public class Rover
 {
     private const int Displacement = 1;
-    private readonly NasaCommunicationProtocol _communicationProtocol;
+    private readonly CommunicationProtocol _communicationProtocol;
     private Location _location;
 
-    public Rover(int x, int y, string direction)
+    public Rover(int x, int y, string direction, CommunicationProtocol communicationProtocol)
     {
         _location = new Location(DirectionMapper.Create(direction), new Coordinates(x, y));
-        _communicationProtocol = new NasaCommunicationProtocol();
+        _communicationProtocol = communicationProtocol;
     }
 
     public void Receive(string commandsSequence)

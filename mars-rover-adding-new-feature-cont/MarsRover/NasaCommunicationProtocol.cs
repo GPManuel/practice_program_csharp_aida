@@ -4,7 +4,7 @@ using MarsRover.commands;
 
 namespace MarsRover;
 
-public class NasaCommunicationProtocol
+public class NasaCommunicationProtocol : CommunicationProtocol
 {
     public List<Command> CreateCommands(string commandsSequence, int displacement)
     {

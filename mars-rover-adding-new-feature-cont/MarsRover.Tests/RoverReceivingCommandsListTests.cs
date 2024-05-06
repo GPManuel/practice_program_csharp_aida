@@ -34,4 +34,14 @@ public class RoverReceivingCommandsListTests
 
         Assert.That(rover, Is.EqualTo(ANASARover().WithCoordinates(0, 0).Facing("E").Build()));
     }
+
+    [Test]
+    public void Several_Commands_To_An_ESA_Rover()
+    {
+        var rover = AnESARover().WithCoordinates(0, 0).Facing("N").Build();
+
+        rover.Receive("b");
+
+        Assert.That(rover, Is.EqualTo(AnESARover().WithCoordinates(0, 1).Facing("N").Build()));
+    }
 }
