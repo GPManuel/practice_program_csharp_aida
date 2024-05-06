@@ -7,11 +7,23 @@ public class EsaCommunicationProtocol : CommunicationProtocol
 {
     public List<Command> CreateCommands(string commandsSequence, int displacement)
     {
-        if (commandsSequence == "")
+        var commands = new List<Command>();
+        foreach (var commandRepresentation in commandsSequence)
         {
-            return new List<Command>();
+            if (commandRepresentation == 'b') {
+                commands.Add(new MovementForward(displacement));
+            }
+            else if (commandRepresentation == 'x') {
+                commands.Add(new MovementBackward(displacement));
+            }
+
+            else if (commandRepresentation == 'f') {
+                commands.Add(new RotationLeft());
+            }
+            else {
+                commands.Add(new RotationRight());
+            }
         }
-        
-        return new List<Command>() { new MovementForward(displacement) };
+        return commands;
     }
 }
