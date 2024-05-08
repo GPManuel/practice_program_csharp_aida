@@ -10,7 +10,6 @@ public class RoverUsingEsaCommunicationProtocolTest : RoverUsingCommunicationPro
         return EsaRover();
     }
 
-
     protected override string GetRepresentationFor(Commands command)
     {
         return command switch
