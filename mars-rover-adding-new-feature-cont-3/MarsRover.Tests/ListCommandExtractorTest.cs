@@ -8,7 +8,7 @@ namespace MarsRover.Tests;
 public class ListCommandExtractorTest
 {
     /*
-     * del -> Secuencia 1 comando del 
+     * ✅: del -> Secuencia 1 comando del 
      * deldeldel -> Secuencia 3 comandos de del 
      * atdel -> Secuencia dos comandos at y del
      * izdelat -> Secuencia 3 comandos iz, del, at 
@@ -38,25 +38,5 @@ public class ListCommandExtractorTest
         var result = commandExtractor.Extract("del");
 
         Assert.That(result, Is.EqualTo(new List<string>() { "del" }));
-    }
-}
-
-public class ListCommandExtractor : CommandExtractor
-{
-    private readonly List<string> _commands;
-
-    public ListCommandExtractor(List<string> commands)
-    {
-        _commands = commands;
-    }
-
-    public List<string> Extract(string commandsSequence)
-    {
-        if (commandsSequence.Equals(_commands.First()))
-        {
-            return new List<string>() { commandsSequence };
-        }
-
-        return new List<string>();
     }
 }
