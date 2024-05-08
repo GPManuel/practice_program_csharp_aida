@@ -1,67 +1,33 @@
+using MarsRover.Tests.helpers;
 using NUnit.Framework;
 using static MarsRover.Tests.helpers.RoverBuilder;
 
 namespace MarsRover.Tests;
 
-public class RoverUsingCnsaCommunicationProtocolTest
+public class RoverUsingCnsaCommunicationProtocolTest : RoverUsingCommunicationProtocolTest
 {
-    [Test]
-    public void No_Commands()
+    protected override RoverBuilder GetRover()
     {
-        var rover = CsnaRover().Build();
-
-        rover.Receive("");
-
-        Assert.That(rover, Is.EqualTo(CsnaRover().Build()));
+        return CsnaRover();
     }
 
-    [Test]
-    public void Forward_Commands()
+    protected override string GetForwardRepresentationCommand()
     {
-        var rover = CsnaRover().WithCoordinates(0, 0).Facing("N").Build();
-
-        rover.Receive("bx");
-
-        Assert.That(rover, Is.EqualTo(CsnaRover().WithCoordinates(0, 1).Facing("N").Build()));
+        return "bx";
     }
 
-    [Test]
-    public void Backward_Commands()
+    protected override string GetBackwardRepresentationCommand()
     {
-        var rover = CsnaRover().WithCoordinates(3, 3).Facing("E").Build();
-
-        rover.Receive("tf");
-
-        Assert.That(rover, Is.EqualTo(CsnaRover().WithCoordinates(2, 3).Facing("E").Build()));
+        return "tf";
     }
 
-    [Test]
-    public void Rotate_Left_Commands()
+    protected override string GetRotateLeftRepresentationCommand()
     {
-        var rover = CsnaRover().Facing("E").Build();
-
-        rover.Receive("ah");
-
-        Assert.That(rover, Is.EqualTo(CsnaRover().Facing("N").Build()));
+        return "ah";
     }
 
-    [Test]
-    public void Rotate_Right_Commands()
+    protected override string GetRotateRightRepresentationCommand()
     {
-        var rover = CsnaRover().Facing("W").Build();
-
-        rover.Receive("pl");
-
-        Assert.That(rover, Is.EqualTo(CsnaRover().Facing("N").Build()));
-    }
-
-    [Test]
-    public void Two_Commands()
-    {
-        var rover = CsnaRover().Facing("W").Build();
-
-        rover.Receive("ahpl");
-
-        Assert.That(rover, Is.EqualTo(CsnaRover().Facing("W").Build()));
+        return "pl";
     }
 }

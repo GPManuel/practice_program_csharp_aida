@@ -1,67 +1,33 @@
+using MarsRover.Tests.helpers;
 using NUnit.Framework;
 using static MarsRover.Tests.helpers.RoverBuilder;
 
 namespace MarsRover.Tests;
 
-public class RoverUsingEsaCommunicationProtocolTest
+public class RoverUsingEsaCommunicationProtocolTest : RoverUsingCommunicationProtocolTest
 {
-    [Test]
-    public void No_Commands()
+    protected override RoverBuilder GetRover()
     {
-        var rover = EsaRover().Build();
-
-        rover.Receive("");
-
-        Assert.That(rover, Is.EqualTo(EsaRover().Build()));
+        return EsaRover();
     }
 
-    [Test]
-    public void Forward_Commands()
+    protected override string GetForwardRepresentationCommand()
     {
-        var rover = EsaRover().WithCoordinates(0, 0).Facing("N").Build();
-
-        rover.Receive("b");
-
-        Assert.That(rover, Is.EqualTo(EsaRover().WithCoordinates(0, 1).Facing("N").Build()));
+        return "b";
     }
 
-    [Test]
-    public void Backward_Commands()
+    protected override string GetBackwardRepresentationCommand()
     {
-        var rover = EsaRover().WithCoordinates(3, 3).Facing("E").Build();
-
-        rover.Receive("x");
-
-        Assert.That(rover, Is.EqualTo(EsaRover().WithCoordinates(2, 3).Facing("E").Build()));
+        return "x";
     }
 
-    [Test]
-    public void Rotate_Left_Commands()
+    protected override string GetRotateLeftRepresentationCommand()
     {
-        var rover = EsaRover().Facing("E").Build();
-
-        rover.Receive("f");
-
-        Assert.That(rover, Is.EqualTo(EsaRover().Facing("N").Build()));
+        return "f";
     }
 
-    [Test]
-    public void Rotate_Right_Commands()
+    protected override string GetRotateRightRepresentationCommand()
     {
-        var rover = EsaRover().Facing("W").Build();
-
-        rover.Receive("l");
-
-        Assert.That(rover, Is.EqualTo(EsaRover().Facing("N").Build()));
-    }
-
-    [Test]
-    public void Two_Commands()
-    {
-        var rover = EsaRover().Facing("W").Build();
-
-        rover.Receive("lf");
-
-        Assert.That(rover, Is.EqualTo(EsaRover().Facing("W").Build()));
+        return "l";
     }
 }

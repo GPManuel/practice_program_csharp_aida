@@ -63,7 +63,7 @@ public class ListCommandExtractorTest
     }
 
     [Test]
-    [Ignore("Pa más adelante")]
+    [Ignore("coñe")]
     public void extract_command_with_unknow_characters_sequence()
     {
         var commands = new List<string>() { "del", "at", "iz" };
