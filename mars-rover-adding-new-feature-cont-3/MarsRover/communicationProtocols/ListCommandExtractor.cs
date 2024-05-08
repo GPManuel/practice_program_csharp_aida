@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace MarsRover.communicationProtocols;
 
@@ -14,11 +16,27 @@ public class ListCommandExtractor : CommandExtractor
 
     public List<string> Extract(string commandsSequence)
     {
-        if (commandsSequence.Equals(_commands.First()))
+        var commandsFound = new List<string>();
+
+        RecursiveExtractCommands(commandsSequence, commandsFound);
+
+        return commandsFound;
+    }
+
+    private void RecursiveExtractCommands(string commandsSequence, List<string> commandsFound)
+    {
+        foreach (var command in _commands)
         {
-            return new List<string>() { commandsSequence };
+            if (commandsSequence.StartsWith(command))
+            {
+                commandsFound.Add(command);
+                commandsSequence = commandsSequence.Substring(command.Length, commandsSequence.Length - command.Length);
+            }
         }
 
-        return new List<string>();
+        if (!String.IsNullOrEmpty(commandsSequence))
+        {
+            RecursiveExtractCommands(commandsSequence, commandsFound);
+        }
     }
 }
