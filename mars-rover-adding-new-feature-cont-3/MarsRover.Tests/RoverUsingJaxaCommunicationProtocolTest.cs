@@ -1,4 +1,5 @@
 ﻿using MarsRover.Tests.helpers;
+using System.Collections.Generic;
 using static MarsRover.Tests.helpers.RoverBuilder;
 
 namespace MarsRover.Tests
@@ -10,24 +11,15 @@ namespace MarsRover.Tests
             return JaxaRover();
         }
 
-        protected override string GetForwardRepresentationCommand()
+        protected override Dictionary<Commands, string> ConfigureRepresentationCommands()
         {
-            return "del";
-        }
-
-        protected override string GetBackwardRepresentationCommand()
-        {
-            return "at";
-        }
-
-        protected override string GetRotateLeftRepresentationCommand()
-        {
-            return "iz";
-        }
-
-        protected override string GetRotateRightRepresentationCommand()
-        {
-            return "der";
+            return new Dictionary<Commands, string>()
+            {
+                { Commands.ForwardCommand , "del"},
+                { Commands.BackwardCommand , "at"},
+                { Commands.RotateLeftCommand , "iz"},
+                { Commands.RotateRightCommand , "der"},
+            };
         }
     }
 }

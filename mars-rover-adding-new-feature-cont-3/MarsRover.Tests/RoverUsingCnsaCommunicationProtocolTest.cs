@@ -1,5 +1,5 @@
 using MarsRover.Tests.helpers;
-using NUnit.Framework;
+using System.Collections.Generic;
 using static MarsRover.Tests.helpers.RoverBuilder;
 
 namespace MarsRover.Tests;
@@ -11,23 +11,14 @@ public class RoverUsingCnsaCommunicationProtocolTest : RoverUsingCommunicationPr
         return CsnaRover();
     }
 
-    protected override string GetForwardRepresentationCommand()
+    protected override Dictionary<Commands, string> ConfigureRepresentationCommands()
     {
-        return "bx";
-    }
-
-    protected override string GetBackwardRepresentationCommand()
-    {
-        return "tf";
-    }
-
-    protected override string GetRotateLeftRepresentationCommand()
-    {
-        return "ah";
-    }
-
-    protected override string GetRotateRightRepresentationCommand()
-    {
-        return "pl";
+        return new Dictionary<Commands, string>()
+        {
+            { Commands.ForwardCommand , "bx"},
+            { Commands.BackwardCommand , "tf"},
+            { Commands.RotateLeftCommand , "ah"},
+            { Commands.RotateRightCommand , "pl"},
+        };
     }
 }

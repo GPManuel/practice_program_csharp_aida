@@ -1,10 +1,19 @@
 using MarsRover.Tests.helpers;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace MarsRover.Tests;
 
 public abstract class RoverUsingCommunicationProtocolTest
 {
+    protected enum Commands
+    {
+        BackwardCommand,
+        ForwardCommand,
+        RotateLeftCommand,
+        RotateRightCommand
+    }
+
     [Test]
     public void No_Commands()
     {
@@ -20,7 +29,7 @@ public abstract class RoverUsingCommunicationProtocolTest
     {
         var rover = GetRover().WithCoordinates(0, 0).Facing("N").Build();
 
-        rover.Receive(GetForwardRepresentationCommand());
+        rover.Receive(GetRepresentationFor(Commands.ForwardCommand));
 
         Assert.That(rover, Is.EqualTo(GetRover().WithCoordinates(0, 1).Facing("N").Build()));
     }
@@ -30,7 +39,7 @@ public abstract class RoverUsingCommunicationProtocolTest
     {
         var rover = GetRover().WithCoordinates(3, 3).Facing("E").Build();
 
-        rover.Receive(GetBackwardRepresentationCommand());
+        rover.Receive(GetRepresentationFor((Commands.BackwardCommand)));
 
         Assert.That(rover, Is.EqualTo(GetRover().WithCoordinates(2, 3).Facing("E").Build()));
     }
@@ -40,7 +49,7 @@ public abstract class RoverUsingCommunicationProtocolTest
     {
         var rover = GetRover().Facing("E").Build();
 
-        rover.Receive(GetRotateLeftRepresentationCommand());
+        rover.Receive(GetRepresentationFor(Commands.RotateLeftCommand));
 
         Assert.That(rover, Is.EqualTo(GetRover().Facing("N").Build()));
     }
@@ -50,7 +59,7 @@ public abstract class RoverUsingCommunicationProtocolTest
     {
         var rover = GetRover().Facing("W").Build();
 
-        rover.Receive(GetRotateRightRepresentationCommand());
+        rover.Receive(GetRepresentationFor(Commands.RotateRightCommand));
 
         Assert.That(rover, Is.EqualTo(GetRover().Facing("N").Build()));
     }
@@ -60,14 +69,19 @@ public abstract class RoverUsingCommunicationProtocolTest
     {
         var rover = GetRover().Facing("W").Build();
 
-        rover.Receive(GetRotateLeftRepresentationCommand() + GetRotateRightRepresentationCommand());
+        var commandSequence = GetRepresentationFor(Commands.RotateLeftCommand)
+                                    + GetRepresentationFor(Commands.RotateRightCommand);
+
+        rover.Receive(commandSequence);
 
         Assert.That(rover, Is.EqualTo(GetRover().Facing("W").Build()));
     }
 
     protected abstract RoverBuilder GetRover();
-    protected abstract string GetForwardRepresentationCommand();
-    protected abstract string GetBackwardRepresentationCommand();
-    protected abstract string GetRotateLeftRepresentationCommand();
-    protected abstract string GetRotateRightRepresentationCommand();
+    protected abstract Dictionary<Commands, string> ConfigureRepresentationCommands();
+
+    private string GetRepresentationFor(Commands command)
+    {
+        return ConfigureRepresentationCommands()[command];
+    }
 }
