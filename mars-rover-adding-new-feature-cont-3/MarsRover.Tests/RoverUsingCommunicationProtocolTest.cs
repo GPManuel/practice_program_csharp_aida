@@ -1,6 +1,5 @@
 using MarsRover.Tests.helpers;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace MarsRover.Tests;
 
@@ -78,10 +77,5 @@ public abstract class RoverUsingCommunicationProtocolTest
     }
 
     protected abstract RoverBuilder GetRover();
-    protected abstract Dictionary<Commands, string> ConfigureRepresentationCommands();
-
-    private string GetRepresentationFor(Commands command)
-    {
-        return ConfigureRepresentationCommands()[command];
-    }
+    protected abstract string GetRepresentationFor(Commands command);
 }
