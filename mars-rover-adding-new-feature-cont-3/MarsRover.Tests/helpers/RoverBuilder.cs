@@ -49,4 +49,9 @@ public class RoverBuilder
     {
         return new RoverBuilder(3, 0, "N", new CnsaCommunicationProtocol());
     }
+
+    public static RoverBuilder JaxaRover()
+    {
+        return new RoverBuilder(5, 3, "N", new JaxaCommunicationProtocol());
+    }
 }

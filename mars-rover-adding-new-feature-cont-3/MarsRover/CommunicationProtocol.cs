@@ -6,9 +6,9 @@ namespace MarsRover;
 
 public abstract class CommunicationProtocol
 {
-    private readonly SizeCommandExtractor _sizeCommandExtractor;
+    private readonly CommandExtractor _sizeCommandExtractor;
 
-    protected CommunicationProtocol(SizeCommandExtractor sizeCommandExtractor) {
+    protected CommunicationProtocol(CommandExtractor sizeCommandExtractor) {
         _sizeCommandExtractor = sizeCommandExtractor;
     }
 
