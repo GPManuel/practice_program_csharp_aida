@@ -4,7 +4,7 @@ namespace MarsRover.communicationProtocols;
 
 public class CnsaCommunicationProtocol : CommunicationProtocol
 {
-    public CnsaCommunicationProtocol() : base(new CommandExtractor(2))
+    public CnsaCommunicationProtocol() : base(new SizeCommandExtractor(2))
     {
     }
 

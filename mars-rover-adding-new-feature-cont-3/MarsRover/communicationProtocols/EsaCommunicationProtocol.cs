@@ -4,7 +4,7 @@ namespace MarsRover.communicationProtocols;
 
 public class EsaCommunicationProtocol : CommunicationProtocol
 {
-    public EsaCommunicationProtocol() : base(new CommandExtractor(1))
+    public EsaCommunicationProtocol() : base(new SizeCommandExtractor(1))
     {
     }
 
