@@ -22,7 +22,7 @@ namespace GuessRandomNumber.Tests
         [Test]
         public void user_win_at_first_try()
         {
-            _randomGenerator.GenerateRandomNumber().Returns(3);
+            _randomGenerator.GenerateRandomNumberFromOneToTwelve().Returns(3);
             _userResponse.Get().Returns(3);
 
             guessRandomNumberGame.Run();
@@ -33,7 +33,7 @@ namespace GuessRandomNumber.Tests
         [Test]
         public void notify_user_when_number_is_wrong_and_is_lower_than_random_number()
         {
-            _randomGenerator.GenerateRandomNumber().Returns(10);
+            _randomGenerator.GenerateRandomNumberFromOneToTwelve().Returns(10);
             _userResponse.Get().Returns(5);
 
             guessRandomNumberGame.Run();
@@ -44,7 +44,7 @@ namespace GuessRandomNumber.Tests
         [Test]
         public void notify_user_when_number_is_wrong_and_is_greater_than_random_number()
         {
-            _randomGenerator.GenerateRandomNumber().Returns(2);
+            _randomGenerator.GenerateRandomNumberFromOneToTwelve().Returns(2);
             _userResponse.Get().Returns(5);
 
             guessRandomNumberGame.Run();

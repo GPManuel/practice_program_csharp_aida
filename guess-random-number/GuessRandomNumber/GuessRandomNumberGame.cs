@@ -5,6 +5,7 @@ public class GuessRandomNumberGame
     private readonly RandomGenerator _randomGenerator;
     private readonly UserNotification _userNotification;
     private readonly UserResponse _userResponse;
+    private int _numberToGuess;
 
     public GuessRandomNumberGame(RandomGenerator randomGenerator, UserNotification userNotification, UserResponse userResponse)
     {
@@ -15,7 +16,7 @@ public class GuessRandomNumberGame
 
     public void Run()
     {
-        var number = _randomGenerator.GenerateRandomNumber();
+        var number = GetRandomNumber();
         var selectedNumber = _userResponse.Get();
 
         if (number > selectedNumber)
@@ -30,5 +31,11 @@ public class GuessRandomNumberGame
         {
             _userNotification.Notify("win game");
         }
+    }
+
+    private int GetRandomNumber()
+    {
+        _numberToGuess = _randomGenerator.GenerateRandomNumberFromOneToTwelve();
+        return _numberToGuess;
     }
 }
