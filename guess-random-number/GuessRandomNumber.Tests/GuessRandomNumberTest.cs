@@ -8,6 +8,7 @@ namespace GuessRandomNumber.Tests
         private UserResponse _userResponse; //TODO CAMBIAR NOMBRE
         private UserNotification _userNotification;
         private RandomGenerator _randomGenerator;
+        private GuessRandomNumberGame guessRandomNumberGame;
 
         [SetUp]
         public void SetUp()
@@ -15,12 +16,12 @@ namespace GuessRandomNumber.Tests
             _userResponse = Substitute.For<UserResponse>();
             _userNotification = Substitute.For<UserNotification>();
             _randomGenerator = Substitute.For<RandomGenerator>();
+            guessRandomNumberGame = new(_randomGenerator, _userNotification, _userResponse);
         }
 
         [Test]
         public void user_win_at_first_try()
         {
-            GuessRandomNumberGame guessRandomNumberGame = new(_randomGenerator, _userNotification, _userResponse);
             _randomGenerator.GenerateRandomNumber().Returns(3);
             _userResponse.Get().Returns(3);
 
@@ -32,7 +33,6 @@ namespace GuessRandomNumber.Tests
         [Test]
         public void notify_user_when_number_is_wrong_and_is_lower_than_random_number()
         {
-            GuessRandomNumberGame guessRandomNumberGame = new(_randomGenerator, _userNotification, _userResponse);
             _randomGenerator.GenerateRandomNumber().Returns(10);
             _userResponse.Get().Returns(5);
 
