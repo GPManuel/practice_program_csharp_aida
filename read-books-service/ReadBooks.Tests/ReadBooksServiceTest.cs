@@ -1,4 +1,5 @@
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
 
 namespace ReadBooks.Tests
@@ -47,6 +48,16 @@ namespace ReadBooks.Tests
 
             var expectedBooks = new List<Book>() { new Book("Clean Code") };
             Assert.That(friendBooks, Is.EquivalentTo(expectedBooks));
+        }
+
+        [Test]
+        public void throw_exception_when_no_user_logged() {
+            User friend = new User(1);
+            _userSession.GetLoggedUser().ReturnsNull();
+
+            TestDelegate execution = () => _readBooksService.GetBooksReadByUser(friend);
+
+            Assert.Throws<UserNotLoggedException>(execution);
         }
 
     }

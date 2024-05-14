@@ -18,6 +18,10 @@ public class ReadBooksService
 
     public List<Book> GetBooksReadByUser(User user)
     {
+        if (_userSession.GetLoggedUser() == null)
+        {
+            throw new UserNotLoggedException();
+        }
         if (AreNotFriends(user))
         {
             return new List<Book>();
