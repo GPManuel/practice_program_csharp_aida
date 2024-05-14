@@ -38,13 +38,14 @@ Cuantos numeros ha indicado / les quedan
 
 ### Lista de ejemplos
 
-Random 3 => Jugador: 3 => Jugador Gana
+Random 3 => Jugador: 3 => sistema indica: Jugador Gana => 
+			 Fin de la ejecución
 
 Random: 10 => Jugador: 5 => sistema: indica numero mayor
 Random: 2 => Jugador: 5 => sistema: indica numero menor
 
 Random: 8 => Jugador: 3 => sistema: indica numero menor => 
-			 Jugador: 8 => Jugador Gana =>
+			 Jugador: 8 => sistema indica: Jugador Gana =>
 			 Fin de la ejecución
 
 Random: 12 => Jugador: 6 => sistema: indica numero mayor => 
