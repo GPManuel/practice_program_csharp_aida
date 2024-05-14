@@ -2,23 +2,24 @@ namespace GuessRandomNumber;
 
 public class GuessRandomNumberGame
 {
-    private readonly RandomGenerator _randomGenerator;
+    private readonly NumberToGuessGenerator _numberToGuessGenerator;
     private readonly UserNotification _userNotification;
     private readonly UserResponse _userResponse;
     private int _numberToGuess;
 
-    public GuessRandomNumberGame(RandomGenerator randomGenerator, UserNotification userNotification, UserResponse userResponse)
+    public GuessRandomNumberGame(NumberToGuessGenerator numberToGuessGenerator, UserNotification userNotification, UserResponse userResponse)
     {
-        _randomGenerator = randomGenerator;
+        _numberToGuessGenerator = numberToGuessGenerator;
         _userNotification = userNotification;
         _userResponse = userResponse;
     }
 
     public void Run()
     {
+        var number = _numberToGuessGenerator.GenerateRandomNumberFromOneToTwelve();
+
         for (int i = 0; i < 2; i++)
         {
-            var number = GetRandomNumber();
             var selectedNumber = _userResponse.Get();
 
             if (number > selectedNumber)
@@ -35,15 +36,5 @@ public class GuessRandomNumberGame
                 return;
             }
         }
-    }
-
-    private int GetRandomNumber()
-    {
-        if (_numberToGuess == default)
-        {
-            _numberToGuess = _randomGenerator.GenerateRandomNumberFromOneToTwelve();
-        }
-
-        return _numberToGuess;
     }
 }

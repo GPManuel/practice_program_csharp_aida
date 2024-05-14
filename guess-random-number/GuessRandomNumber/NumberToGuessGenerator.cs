@@ -1,6 +1,6 @@
 namespace GuessRandomNumber;
 
-public interface RandomGenerator
+public interface NumberToGuessGenerator
 {
     int GenerateRandomNumberFromOneToTwelve();
 }
