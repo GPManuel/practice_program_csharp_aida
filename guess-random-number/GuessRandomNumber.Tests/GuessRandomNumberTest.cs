@@ -38,7 +38,7 @@ namespace GuessRandomNumber.Tests
 
             guessRandomNumberGame.Run();
 
-            _userNotification.Received(1).Notify("The number is higher");
+            _userNotification.Received().Notify("The number is higher");
         }
 
         [Test]
@@ -49,7 +49,19 @@ namespace GuessRandomNumber.Tests
 
             guessRandomNumberGame.Run();
 
-            _userNotification.Received(1).Notify("The number is lower");
+            _userNotification.Received().Notify("The number is lower");
+        }
+
+        [Test]
+        public void number_to_guess_not_change_in_different_attempts()
+        {
+            var numberToGuess = 2;
+            _randomGenerator.GenerateRandomNumberFromOneToTwelve().Returns(numberToGuess,10);
+            _userResponse.Get().Returns(5,numberToGuess);
+
+            guessRandomNumberGame.Run();
+
+            _userNotification.Received(1).Notify("win game");
         }
     }
 }

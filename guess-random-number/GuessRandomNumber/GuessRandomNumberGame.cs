@@ -16,26 +16,34 @@ public class GuessRandomNumberGame
 
     public void Run()
     {
-        var number = GetRandomNumber();
-        var selectedNumber = _userResponse.Get();
+        for (int i = 0; i < 2; i++)
+        {
+            var number = GetRandomNumber();
+            var selectedNumber = _userResponse.Get();
 
-        if (number > selectedNumber)
-        {
-            _userNotification.Notify("The number is higher");
-        }
-        else if (number < selectedNumber)
-        {
-            _userNotification.Notify("The number is lower");
-        }
-        else
-        {
-            _userNotification.Notify("win game");
+            if (number > selectedNumber)
+            {
+                _userNotification.Notify("The number is higher");
+            }
+            else if (number < selectedNumber)
+            {
+                _userNotification.Notify("The number is lower");
+            }
+            else
+            {
+                _userNotification.Notify("win game");
+                return;
+            }
         }
     }
 
     private int GetRandomNumber()
     {
-        _numberToGuess = _randomGenerator.GenerateRandomNumberFromOneToTwelve();
+        if (_numberToGuess == default)
+        {
+            _numberToGuess = _randomGenerator.GenerateRandomNumberFromOneToTwelve();
+        }
+
         return _numberToGuess;
     }
 }
