@@ -28,5 +28,17 @@ namespace GuessRandomNumber.Tests
 
             _userNotification.Received(1).Notify("win game");
         }
+
+        [Test]
+        public void notify_user_when_number_is_wrong_and_is_lower_than_random_number()
+        {
+            GuessRandomNumberGame guessRandomNumberGame = new(_randomGenerator, _userNotification, _userResponse);
+            _randomGenerator.GenerateRandomNumber().Returns(10);
+            _userResponse.Get().Returns(5);
+
+            guessRandomNumberGame.Run();
+
+            _userNotification.Received(1).Notify("The number is higher");
+        }
     }
 }

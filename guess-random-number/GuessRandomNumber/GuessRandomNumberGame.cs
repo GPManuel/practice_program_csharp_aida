@@ -15,6 +15,16 @@ public class GuessRandomNumberGame
 
     public void Run()
     {
-        _userNotification.Notify("win game");
+        var number = _randomGenerator.GenerateRandomNumber();
+        var selectedNumber = _userResponse.Get();
+
+        if (number != selectedNumber)
+        {
+            _userNotification.Notify("The number is higher");
+        }
+        else
+        {
+            _userNotification.Notify("win game");
+        }
     }
 }
