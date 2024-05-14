@@ -18,11 +18,12 @@ public class ReadBooksService
 
     public List<Book> GetBooksReadByUser(User user)
     {
-        if (_userSession.GetLoggedUser() == null)
+        var loggedUser = _userSession.GetLoggedUser();
+        if (loggedUser == null)
         {
             throw new UserNotLoggedException();
         }
-        if (AreNotFriends(user))
+        if (AreNotFriends(user, loggedUser))
         {
             return new List<Book>();
         }
@@ -30,8 +31,8 @@ public class ReadBooksService
         return _booksRepository.GetBooksBy(user);
     }
 
-    private bool AreNotFriends(User user)
+    private bool AreNotFriends(User user, User loggedUser)
     {
-        return !_usersRepository.AreFriends(_userSession.GetLoggedUser(), user);
+        return !_usersRepository.AreFriends(loggedUser, user);
     }
 }
