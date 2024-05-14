@@ -20,3 +20,34 @@ If the player fails to guess the number, the game must notify the user if the nu
 This is the interface of the game object:
 
 `public void run()`
+
+------------------------------------------------------
+## Análisis
+
+### Dependencias incomodas (Console.WriteLines Console.ReadLines) / Interfaz
+
+La obtención de un numero random tiene que estar bajo clase/interfaz para poder mockearla
+random (fake || stub interfaz || lo que toque)
+
+Same as random
+inputs / outputs (fake || stub interfaz || lo que toque) 
+
+### Estados: 
+Cuantos numeros ha indicado / les quedan
+
+
+### Lista de ejemplos
+
+Random 3 => Jugador: 3 => Jugador Gana
+
+Random: 10 => Jugador: 5 => sistema: indica numero mayor
+Random: 2 => Jugador: 5 => sistema: indica numero menor
+
+Random: 8 => Jugador: 3 => sistema: indica numero menor => 
+			 Jugador: 8 => Jugador Gana =>
+			 Fin de la ejecución
+
+Random: 12 => Jugador: 6 => sistema: indica numero mayor => 
+			  Jugador: 7 => sistema: indica numero mayor =>
+			  Jugador: 8 => sistema indica pierde partida =>
+			  Fin de la ejecución
