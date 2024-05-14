@@ -18,9 +18,13 @@ public class GuessRandomNumberGame
         var number = _randomGenerator.GenerateRandomNumber();
         var selectedNumber = _userResponse.Get();
 
-        if (number != selectedNumber)
+        if (number > selectedNumber)
         {
             _userNotification.Notify("The number is higher");
+        }
+        else if (number < selectedNumber)
+        {
+            _userNotification.Notify("The number is lower");
         }
         else
         {

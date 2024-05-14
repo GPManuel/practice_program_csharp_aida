@@ -40,5 +40,16 @@ namespace GuessRandomNumber.Tests
 
             _userNotification.Received(1).Notify("The number is higher");
         }
+
+        [Test]
+        public void notify_user_when_number_is_wrong_and_is_greater_than_random_number()
+        {
+            _randomGenerator.GenerateRandomNumber().Returns(2);
+            _userResponse.Get().Returns(5);
+
+            guessRandomNumberGame.Run();
+
+            _userNotification.Received(1).Notify("The number is lower");
+        }
     }
 }
