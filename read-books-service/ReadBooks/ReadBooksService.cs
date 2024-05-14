@@ -19,7 +19,7 @@ public class ReadBooksService
     public List<Book> GetBooksReadByUser(User user)
     {
         var loggedUser = _userSession.GetLoggedUser();
-        if (loggedUser == null)
+        if (IsUserNotLogged(loggedUser))
         {
             throw new UserNotLoggedException();
         }
@@ -29,6 +29,11 @@ public class ReadBooksService
         }
 
         return _booksRepository.GetBooksBy(user);
+    }
+
+    private bool IsUserNotLogged(User loggedUser)
+    {
+        return loggedUser == null;
     }
 
     private bool AreNotFriends(User user, User loggedUser)
