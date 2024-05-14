@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ReadBooks;
 
@@ -17,11 +18,16 @@ public class ReadBooksService
 
     public List<Book> GetBooksReadByUser(User user)
     {
-        if (!_usersRepository.AreFriends(_userSession.GetLoggedUser(), user))
+        if (AreNotFriends(user))
         {
             return new List<Book>();
         }
 
         return _booksRepository.GetBooksBy(user);
+    }
+
+    private bool AreNotFriends(User user)
+    {
+        return !_usersRepository.AreFriends(_userSession.GetLoggedUser(), user);
     }
 }

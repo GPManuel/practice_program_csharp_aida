@@ -40,11 +40,12 @@ namespace ReadBooks.Tests
             User friend = new User(1);
             _userSession.GetLoggedUser().Returns(userLogged);
             _usersRepository.AreFriends(userLogged, friend).Returns(true);
-            var expectedBooks = new List<Book>() {new Book("Clean Code")};
-            _booksRepository.GetBooksBy(friend).Returns(expectedBooks);
+            var books = new List<Book>() { new Book("Clean Code") };
+            _booksRepository.GetBooksBy(friend).Returns(books);
 
             List<Book> friendBooks = _readBooksService.GetBooksReadByUser(friend);
 
+            var expectedBooks = new List<Book>() { new Book("Clean Code") };
             Assert.That(friendBooks, Is.EquivalentTo(expectedBooks));
         }
 
