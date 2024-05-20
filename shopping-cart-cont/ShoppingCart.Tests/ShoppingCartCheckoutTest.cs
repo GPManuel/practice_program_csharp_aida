@@ -25,7 +25,7 @@ namespace ShoppingCart.Tests
         }
 
         [Test]
-        public void add_available_product()
+        public void checking_out_one_tax_free_product_with_no_revenue()
         {
             _productsRepository.Get(Iceberg).Returns(
                 TaxFreeWithNoRevenueProduct().Named(Iceberg).Costing(1.55m).Build());
@@ -38,7 +38,7 @@ namespace ShoppingCart.Tests
 
 
         [Test]
-        public void add_available_two_products()
+        public void checking_out_two_tax_free_products_with_no_revenue()
         {
             const string tomato = "Tomato";
             _productsRepository.Get(Iceberg).Returns(
@@ -54,7 +54,7 @@ namespace ShoppingCart.Tests
         }
 
         [Test]
-        public void add_available_one_product_with_tax()
+        public void checking_out_one_product_with_tax_but_no_revenue()
         {
             _productsRepository.Get(Iceberg).Returns(
                 NoRevenueProduct()
@@ -70,7 +70,7 @@ namespace ShoppingCart.Tests
         }
 
         [Test]
-        public void add_available_one_product_with_revenue()
+        public void checking_out_one_product_with_revenue_but_no_taxes()
         {
             _productsRepository.Get(Iceberg).Returns(
                 NoTaxProduct()
@@ -86,7 +86,7 @@ namespace ShoppingCart.Tests
         }
 
         [Test]
-        public void add_available_one_product_with_revenue_and_tax()
+        public void checking_out_one_product_with_revenue_and_taxes()
         {
             _productsRepository.Get(Iceberg).Returns(
                 AnyProduct()
@@ -103,7 +103,7 @@ namespace ShoppingCart.Tests
         }
 
         [Test]
-        public void apply_available_discount()
+        public void applying_discount_on_checkout()
         {
             _productsRepository.Get(Iceberg).Returns(
                 TaxFreeWithNoRevenueProduct().Named(Iceberg).Costing(1.50m).Build());
@@ -117,7 +117,7 @@ namespace ShoppingCart.Tests
         }
 
         [Test]
-        public void apply_two_available_discount()
+        public void trying_to_apply_two_discount_only_applies_the_last_one()
         {
             _productsRepository.Get(Iceberg).Returns(
                 TaxFreeWithNoRevenueProduct().Named(Iceberg).Costing(1m).Build());
@@ -133,15 +133,22 @@ namespace ShoppingCart.Tests
         }
 
         [Test]
-        public void rounded_up_product_price()
+        public void checkout_total_price_is_rounded_up()
         {
             _productsRepository.Get(Iceberg).Returns(
                 TaxFreeWithNoRevenueProduct()
                     .Named(Iceberg)
-                    .Costing(1.78001m)
+                    .Costing(0.78001m)
+                    .Build());
+            var otherProductName = "otherProduct";
+            _productsRepository.Get(otherProductName).Returns(
+                TaxFreeWithNoRevenueProduct()
+                    .Named(otherProductName)
+                    .Costing(1)
                     .Build());
 
             _shoppingCart.AddItem(Iceberg);
+            _shoppingCart.AddItem(otherProductName);
             _shoppingCart.Checkout();
 
             _checkoutService.Received(1).Checkout(CreateShoppingCartDto(1.79m));
