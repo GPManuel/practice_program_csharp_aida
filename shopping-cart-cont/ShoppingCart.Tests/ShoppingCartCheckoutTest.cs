@@ -1,5 +1,4 @@
 ﻿using NSubstitute;
-using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
 using static ShoppingCart.Tests.ProductBuilder;
 using static ShoppingCart.Tests.ShoppingCartTestHelpers;
@@ -22,7 +21,7 @@ namespace ShoppingCart.Tests
             _notifier = Substitute.For<Notifier>();
             _checkoutService = Substitute.For<CheckoutService>();
             _discountsRepository = Substitute.For<DiscountsRepository>();
-            _shoppingCart = CreateShoppingCart(_productsRepository, _notifier, _checkoutService, _discountsRepository);
+            _shoppingCart = CreateShoppingCartForCheckout(_productsRepository, _notifier, _checkoutService, _discountsRepository);
         }
 
         [Test]
@@ -153,6 +152,20 @@ namespace ShoppingCart.Tests
             _shoppingCart.Checkout();
 
             _checkoutService.Received(1).Checkout(CreateShoppingCartDto(1.79m));
+        }
+        
+        [Test]
+        public void checking_out_two_units_of_one_tax_free_product_with_no_revenue()
+        {
+            _productsRepository.Get(Iceberg).Returns(
+                TaxFreeWithNoRevenueProduct().Named(Iceberg).Costing(1.50m).Build(),
+                TaxFreeWithNoRevenueProduct().Named(Iceberg).Costing(1.50m).Build());
+
+            _shoppingCart.AddItem(Iceberg);
+            _shoppingCart.AddItem(Iceberg);
+            _shoppingCart.Checkout();
+
+            _checkoutService.Received(1).Checkout(CreateShoppingCartDto(3m));
         }
     }
 }

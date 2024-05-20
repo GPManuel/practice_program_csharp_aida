@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShoppingCart.Tests
+﻿namespace ShoppingCart.Tests
 {
     public class ShoppingCartTestHelpers
     {
@@ -13,9 +7,16 @@ namespace ShoppingCart.Tests
             return new ShoppingCartDto(cost);
         }
 
-        public static ShoppingCart CreateShoppingCart(ProductsRepository productsRepository, Notifier notifier, CheckoutService checkoutService, DiscountsRepository discountsRepository)
+        public static ShoppingCart CreateShoppingCartForCheckout(ProductsRepository productsRepository, Notifier notifier, CheckoutService checkoutService,
+            DiscountsRepository discountsRepository)
         {
-            return new ShoppingCart(productsRepository, notifier, checkoutService, discountsRepository);
+            return new ShoppingCart(productsRepository, notifier, checkoutService, discountsRepository, null);
+        }
+
+        public static ShoppingCart CreateShoppingCartForDisplay(ProductsRepository productsRepository, Notifier notifier,
+            DiscountsRepository discountsRepository, Display display)
+        {
+            return new ShoppingCart(productsRepository, notifier, null, discountsRepository, display);
         }
     }
 }

@@ -22,7 +22,7 @@ public class ShoppingCartErrorTest
         _notifier = Substitute.For<Notifier>();
         _checkoutService = Substitute.For<CheckoutService>();
         _discountsRepository = Substitute.For<DiscountsRepository>();
-        _shoppingCart = CreateShoppingCart(_productsRepository, _notifier, _checkoutService, _discountsRepository);
+        _shoppingCart = CreateShoppingCartForCheckout(_productsRepository, _notifier, _checkoutService, _discountsRepository);
     }
 
     [Test]
