@@ -1,3 +1,5 @@
+using System;
+
 namespace ShoppingCart;
 
 public class Product
@@ -20,7 +22,8 @@ public class Product
     public decimal ComputeCost()
     {
         var costPlusRevenue = ApplyRevenue();
-        return ApplyTaxes(costPlusRevenue);
+        var computeCost = ApplyTaxes(costPlusRevenue);
+        return Math.Round(computeCost,2,MidpointRounding.ToPositiveInfinity);
     }
 
     private decimal ApplyTaxes(decimal costPlusRevenue)

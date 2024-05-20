@@ -176,6 +176,21 @@ public class ShoppingCartTest
         _notifier.Received(1).ShowError("No product selected, please select a product");
     }
 
+    [Test]
+    public void rounded_up_product_price()
+    {
+        _productsRepository.Get(Iceberg).Returns(
+            TaxFreeWithNoRevenueProduct()
+                .Named(Iceberg)
+                .Costing(1.78001m)
+                .Build());
+
+        _shoppingCart.AddItem(Iceberg);
+        _shoppingCart.Checkout();
+
+        _checkoutService.Received(1).Checkout(CreateShoppingCartDto(1.79m));
+    }
+
 
     private static ShoppingCartDto CreateShoppingCartDto(decimal cost)
     {
