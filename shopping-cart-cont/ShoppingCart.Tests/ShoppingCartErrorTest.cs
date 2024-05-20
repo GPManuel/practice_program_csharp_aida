@@ -25,7 +25,7 @@ public class ShoppingCartErrorTest
     }
 
     [Test]
-    public void add_not_available_product()
+    public void adding_not_available_product_fails()
     {
         const string notAvailableProductName = "some_item";
         _productsRepository.Get(notAvailableProductName).ReturnsNull();
@@ -36,7 +36,7 @@ public class ShoppingCartErrorTest
     }
 
     [Test]
-    public void apply_not_available_discount()
+    public void applying_not_available_discount_fails()
     {
         var notAvailableDiscount = DiscountCode.PROMO_20;
         _discountsRepository.Get(notAvailableDiscount).ReturnsNull();
@@ -47,7 +47,7 @@ public class ShoppingCartErrorTest
     }
 
     [Test]
-    public void checkout_without_products()
+    public void checking_out_without_products_fails()
     {
         _shoppingCart.Checkout();
 
@@ -55,7 +55,7 @@ public class ShoppingCartErrorTest
     }
 
     [Test]
-    public void checkout_twice()
+    public void checking_out_several_times_fails()
     {
         _productsRepository.Get(Iceberg).Returns(
             TaxFreeWithNoRevenueProduct().Named(Iceberg).Costing(1m).Build());
