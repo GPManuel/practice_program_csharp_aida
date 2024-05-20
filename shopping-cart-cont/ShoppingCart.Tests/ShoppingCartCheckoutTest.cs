@@ -2,6 +2,7 @@
 using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
 using static ShoppingCart.Tests.ProductBuilder;
+using static ShoppingCart.Tests.ShoppingCartTestHelpers;
 
 namespace ShoppingCart.Tests
 {
@@ -21,7 +22,7 @@ namespace ShoppingCart.Tests
             _notifier = Substitute.For<Notifier>();
             _checkoutService = Substitute.For<CheckoutService>();
             _discountsRepository = Substitute.For<DiscountsRepository>();
-            _shoppingCart = new ShoppingCart(_productsRepository, _notifier, _checkoutService, _discountsRepository);
+            _shoppingCart = CreateShoppingCart(_productsRepository, _notifier, _checkoutService, _discountsRepository);
         }
 
         [Test]
@@ -153,11 +154,5 @@ namespace ShoppingCart.Tests
 
             _checkoutService.Received(1).Checkout(CreateShoppingCartDto(1.79m));
         }
-
-        private static ShoppingCartDto CreateShoppingCartDto(decimal cost)
-        {
-            return new ShoppingCartDto(cost);
-        }
-
     }
 }
