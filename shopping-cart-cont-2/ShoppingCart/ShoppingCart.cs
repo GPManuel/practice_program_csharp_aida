@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace ShoppingCart;
 
 public class ShoppingCart
@@ -10,8 +7,8 @@ public class ShoppingCart
     private readonly CheckoutService _checkoutService;
     private readonly DiscountsRepository _discountsRepository;
     private readonly Display _display;
-    private List<Product> _productList;
     private Discount _discount;
+    private CartProducts _cartProducts;
 
     public ShoppingCart(ProductsRepository productsRepository, Notifier notifier, CheckoutService checkoutService, 
         DiscountsRepository discountsRepository, Display display)
@@ -32,8 +29,7 @@ public class ShoppingCart
             _notifier.ShowError("Product is not available");
             return;
         }
-        _productList.Add(product);
-
+        _cartProducts.Add(product);
     }
 
     public void ApplyDiscount(DiscountCode discountCode)
@@ -49,7 +45,7 @@ public class ShoppingCart
 
     public void Checkout()
     {
-        if (ThereAreNoProducts())
+        if (_cartProducts.ThereAreNoProducts())
         {
             NotifyEmptyShoppingCart();
             return;
@@ -60,14 +56,14 @@ public class ShoppingCart
 
     public void Display()
     {
-        var contentsSummary = CreateContentsSummary();
+        var contentsSummary = _cartProducts.CreateContentsSummary();
         _display.Show(contentsSummary);
     }
 
     private void InitializeState()
     {
-        _productList = new List<Product>();
         _discount = new Discount(DiscountCode.None, 0);
+        _cartProducts = new CartProducts();
     }
 
     private void NotifyEmptyShoppingCart()
@@ -84,23 +80,7 @@ public class ShoppingCart
 
     private decimal ComputeTotalCost()
     {
-        var totalCost = ComputeAllProductsCost();
+        var totalCost = _cartProducts.ComputeAllProductsCost();
         return _discount.Apply(totalCost);
-    }
-
-    private bool ThereAreNoProducts()
-    {
-        return !_productList.Any();
-    }
-
-    private decimal ComputeAllProductsCost()
-    {
-        return _productList.Sum(p => p.ComputeCost());
-    }
-
-    private ContentsSummary CreateContentsSummary()
-    {
-        var lines = _productList.Select(p => new Line(p.Name, p.ComputeCost())).ToList();
-        return new ContentsSummary(lines);
     }
 }
