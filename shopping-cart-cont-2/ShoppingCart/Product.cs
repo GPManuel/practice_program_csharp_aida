@@ -17,6 +17,8 @@ public class Product
         _tax = tax;
     }
 
+    public string Name { get => _productName; }
+
     public decimal ComputeCost()
     {
         var costPlusRevenue = ApplyRevenue();

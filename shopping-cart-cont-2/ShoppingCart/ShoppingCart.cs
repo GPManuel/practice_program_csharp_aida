@@ -94,6 +94,7 @@ public class ShoppingCart
 
     public void Display()
     {
-        _display.Show(new ContentsSummary());
+        var lines = _productList.Select(p => new Line(p.Name, p.ComputeCost())).ToList();
+        _display.Show(new ContentsSummary(lines));
     }
 }
