@@ -58,6 +58,12 @@ public class ShoppingCart
         InitializeState();
     }
 
+    public void Display()
+    {
+        var contentsSummary = CreateContentsSummary();
+        _display.Show(contentsSummary);
+    }
+
     private void InitializeState()
     {
         _productList = new List<Product>();
@@ -76,15 +82,15 @@ public class ShoppingCart
         _checkoutService.Checkout(shoppingCartDto);
     }
 
-    private bool ThereAreNoProducts()
-    {
-        return !_productList.Any();
-    }
-
     private decimal ComputeTotalCost()
     {
         var totalCost = ComputeAllProductsCost();
         return _discount.Apply(totalCost);
+    }
+
+    private bool ThereAreNoProducts()
+    {
+        return !_productList.Any();
     }
 
     private decimal ComputeAllProductsCost()
@@ -92,9 +98,9 @@ public class ShoppingCart
         return _productList.Sum(p => p.ComputeCost());
     }
 
-    public void Display()
+    private ContentsSummary CreateContentsSummary()
     {
         var lines = _productList.Select(p => new Line(p.Name, p.ComputeCost())).ToList();
-        _display.Show(new ContentsSummary(lines));
+        return new ContentsSummary(lines);
     }
 }

@@ -1,5 +1,10 @@
+using System.Collections;
 using NSubstitute;
 using NUnit.Framework;
+using System.Collections.Generic;
+using static ShoppingCart.Tests.ContentsSummaryBuilder;
+using static ShoppingCart.Tests.LineBuilder;
+using static ShoppingCart.Tests.ProductBuilder;
 
 namespace ShoppingCart.Tests
 {
@@ -26,7 +31,7 @@ namespace ShoppingCart.Tests
         {
             _shoppingCart.Display();
 
-            _display.Received(1).Show(new ContentsSummary(new List<Line>()));
+            _display.Received(1).Show(EmptySummary().Build());
         }
 
         [Test]
@@ -34,13 +39,17 @@ namespace ShoppingCart.Tests
         {
             var aProduct = "Iceberg";
             var cost = 1.0m;
-            _productsRepository.Get(aProduct).Returns(ProductBuilder.TaxFreeWithNoRevenueProduct().Named(aProduct).Costing(cost).Build());
+            _productsRepository.Get(aProduct).Returns(TaxFreeWithNoRevenueProduct().Named(aProduct).Costing(cost).Build());
 
             _shoppingCart.AddItem(aProduct);
             _shoppingCart.Display();
 
-            var summary = new ContentsSummary(new List<Line>() {new(aProduct, cost)});
-            _display.Received(1).Show(summary);
+            _display.Received(1).Show(
+                Summary().With(LineForProduct()
+                                            .Named(aProduct)
+                                            .Costing(cost)).Build()
+                );
         }
     }
 }
+
