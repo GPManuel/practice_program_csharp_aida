@@ -30,6 +30,6 @@ internal class CartProducts
     public ContentsSummary CreateContentsSummary(Discount discount)
     {
         var lines = _products.Select(p => new ProductDto(p.Name, p.ComputeCost())).ToList();
-        return new ContentsSummary(lines, discount.Apply(ComputeAllProductsCost()), new DiscountDto(discount.DiscountCode(), discount.Amount()));
+        return new ContentsSummary(lines, discount.Apply(ComputeAllProductsCost()), discount.CreateDiscountDto());
     }
 }
