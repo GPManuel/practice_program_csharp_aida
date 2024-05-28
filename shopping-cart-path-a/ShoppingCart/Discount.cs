@@ -16,13 +16,8 @@ public class Discount
         return totalCost * (1 - _amount);
     }
 
-    public decimal Amount()
+    public DiscountDto CreateDiscountDto()
     {
-        return _amount;
-    }
-
-    public DiscountCode DiscountCode()
-    {
-        return _discountCode;
+        return new DiscountDto(_discountCode, _amount);
     }
 }

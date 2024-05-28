@@ -72,7 +72,7 @@ namespace ShoppingCart.Tests
                         .Named(aProduct)
                         .Costing(cost))
                     .WithTotalCost(95.0m)
-                    .WithDiscount(new DiscountDto(discountCode, 0.05m))
+                    .WithDiscount(new DiscountDto(0.05m))
                     .Build()
             );
         }
