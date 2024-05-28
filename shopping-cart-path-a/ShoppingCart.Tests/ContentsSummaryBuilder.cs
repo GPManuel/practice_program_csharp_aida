@@ -10,7 +10,7 @@ public class ContentsSummaryBuilder
     {
         _lines = new List<ProductDto>();
         _totalCost = 0;
-        _discount = new DiscountDto(DiscountCode.None,0);
+        _discount = new DiscountDto(DiscountCode.None, 0);
     }
 
     public ContentsSummaryBuilder With(LineBuilder lineBuilder)
