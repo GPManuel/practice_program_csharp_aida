@@ -1,10 +1,8 @@
-using System.Collections;
 using NSubstitute;
 using NUnit.Framework;
-using System.Collections.Generic;
 using static ShoppingCart.Tests.ContentsSummaryBuilder;
-using static ShoppingCart.Tests.ProductDtoBuilder;
 using static ShoppingCart.Tests.ProductBuilder;
+using static ShoppingCart.Tests.ProductDtoBuilder;
 
 namespace ShoppingCart.Tests
 {
@@ -13,7 +11,7 @@ namespace ShoppingCart.Tests
         private ProductsRepository _productsRepository;
         private Notifier _notifier;
         private DiscountsRepository _discountsRepository;
-        private Display _display;
+        private Report _report;
         private ShoppingCart _shoppingCart;
 
         [SetUp]
@@ -22,8 +20,8 @@ namespace ShoppingCart.Tests
             _productsRepository = Substitute.For<ProductsRepository>();
             _notifier = Substitute.For<Notifier>();
             _discountsRepository = Substitute.For<DiscountsRepository>();
-            _display = Substitute.For<Display>();
-            _shoppingCart = ShoppingCartTestHelpers.CreateShoppingCartForDisplay(_productsRepository, _notifier, _discountsRepository, _display);
+            _report = Substitute.For<Report>();
+            _shoppingCart = ShoppingCartTestHelpers.CreateShoppingCartForDisplay(_productsRepository, _notifier, _discountsRepository, _report);
         }
 
         [Test]
@@ -31,7 +29,7 @@ namespace ShoppingCart.Tests
         {
             _shoppingCart.Display();
 
-            _display.Received(1).Show(EmptySummary().Build());
+            _report.Received(1).Show(EmptySummary().Build());
         }
 
         [Test]
@@ -44,7 +42,7 @@ namespace ShoppingCart.Tests
             _shoppingCart.AddItem(aProduct);
             _shoppingCart.Display();
 
-            _display.Received(1).Show(
+            _report.Received(1).Show(
                 Summary().With(ProductData()
                                             .Named(aProduct)
                                             .Costing(cost))
@@ -67,7 +65,7 @@ namespace ShoppingCart.Tests
             _shoppingCart.ApplyDiscount(discountCode);
             _shoppingCart.Display();
 
-            _display.Received(1).Show(
+            _report.Received(1).Show(
                 Summary().With(ProductData()
                         .Named(aProduct)
                         .Costing(cost))
@@ -88,7 +86,7 @@ namespace ShoppingCart.Tests
             _shoppingCart.AddItem(aProduct);
             _shoppingCart.Display();
 
-            _display.Received(1).Show(
+            _report.Received(1).Show(
                 Summary().With(ProductData()
                         .Named(aProduct)
                         .Costing(cost))

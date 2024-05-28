@@ -15,9 +15,9 @@ namespace ShoppingCart.Tests
         }
 
         public static ShoppingCart CreateShoppingCartForDisplay(ProductsRepository productsRepository, Notifier notifier,
-            DiscountsRepository discountsRepository, Display display)
+            DiscountsRepository discountsRepository, Report report)
         {
-            return new ShoppingCart(productsRepository, notifier, null, discountsRepository, display);
+            return new ShoppingCart(productsRepository, notifier, null, discountsRepository, report);
         }
     }
 }

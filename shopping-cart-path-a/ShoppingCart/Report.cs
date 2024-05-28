@@ -1,6 +1,6 @@
 namespace ShoppingCart;
 
-public interface Display
+public interface Report
 {
     void Show(ContentsSummary contentsSummary);
 }

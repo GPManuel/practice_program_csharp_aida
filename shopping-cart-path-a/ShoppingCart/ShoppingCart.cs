@@ -6,18 +6,18 @@ public class ShoppingCart
     private readonly Notifier _notifier;
     private readonly CheckoutService _checkoutService;
     private readonly DiscountsRepository _discountsRepository;
-    private readonly Display _display;
+    private readonly Report _report;
     private Discount _discount;
     private CartProducts _cartProducts;
 
     public ShoppingCart(ProductsRepository productsRepository, Notifier notifier, CheckoutService checkoutService, 
-        DiscountsRepository discountsRepository, Display display)
+        DiscountsRepository discountsRepository, Report report)
     {
         _productsRepository = productsRepository;
         _notifier = notifier;
         _checkoutService = checkoutService;
         _discountsRepository = discountsRepository;
-        _display = display;
+        _report = report;
         InitializeState();
     }
 
@@ -57,7 +57,7 @@ public class ShoppingCart
     public void Display()
     {
         var contentsSummary = _cartProducts.CreateContentsSummary(_discount);
-        _display.Show(contentsSummary);
+        _report.Show(contentsSummary);
     }
 
     private void InitializeState()
