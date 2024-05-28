@@ -34,4 +34,14 @@ public record ContentsSummary
         return
             $"{nameof(_productDtos)}: {_productDtos}, {nameof(_totalCost)}: {_totalCost}, {nameof(_discount)}: {_discount}";
     }
+
+    public int TotalProducts()
+    {
+        return _productDtos.Count();
+    }
+
+    public decimal TotalCost()
+    {
+        return _totalCost;
+    }
 }
