@@ -1,23 +1,23 @@
 namespace ShoppingCart.Tests;
 
-public class LineBuilder
+public class ProductDtoBuilder
 {
     private decimal _priceWithVat;
     private string _productName;
 
-    public LineBuilder(string productName, decimal priceWithVat)
+    public ProductDtoBuilder(string productName, decimal priceWithVat)
     {
         _priceWithVat = priceWithVat;
         _productName = productName;
     }
 
-    public LineBuilder Named(string productName)
+    public ProductDtoBuilder Named(string productName)
     {
         _productName = productName;
         return this;
     }
 
-    public LineBuilder Costing(decimal priceWithVat)
+    public ProductDtoBuilder Costing(decimal priceWithVat)
     {
         _priceWithVat = priceWithVat;
         return this;
@@ -28,8 +28,8 @@ public class LineBuilder
         return new ProductDto(_productName, _priceWithVat);
     }
 
-    public static LineBuilder LineForProduct()
+    public static ProductDtoBuilder ProductData()
     {
-        return new LineBuilder("Pepe", 1);
+        return new ProductDtoBuilder("Pepe", 1);
     }
 }

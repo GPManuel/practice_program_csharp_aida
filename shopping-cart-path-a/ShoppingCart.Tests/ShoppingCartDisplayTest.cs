@@ -3,7 +3,7 @@ using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
 using static ShoppingCart.Tests.ContentsSummaryBuilder;
-using static ShoppingCart.Tests.LineBuilder;
+using static ShoppingCart.Tests.ProductDtoBuilder;
 using static ShoppingCart.Tests.ProductBuilder;
 
 namespace ShoppingCart.Tests
@@ -45,7 +45,7 @@ namespace ShoppingCart.Tests
             _shoppingCart.Display();
 
             _display.Received(1).Show(
-                Summary().With(LineForProduct()
+                Summary().With(ProductData()
                                             .Named(aProduct)
                                             .Costing(cost))
                                        .WithTotalCost(cost)
@@ -68,11 +68,34 @@ namespace ShoppingCart.Tests
             _shoppingCart.Display();
 
             _display.Received(1).Show(
-                Summary().With(LineForProduct()
+                Summary().With(ProductData()
                         .Named(aProduct)
                         .Costing(cost))
                     .WithTotalCost(95.0m)
                     .WithDiscount(new DiscountDto(discountCode, 0.05m))
+                    .Build()
+            );
+        }
+
+        [Test]
+        public void displaying_cart_with_several_product()
+        {
+            var aProduct = "Iceberg";
+            var cost = 100.0m;
+            _productsRepository.Get(aProduct).Returns(TaxFreeWithNoRevenueProduct().Named(aProduct).Costing(cost).Build());
+
+            _shoppingCart.AddItem(aProduct);
+            _shoppingCart.AddItem(aProduct);
+            _shoppingCart.Display();
+
+            _display.Received(1).Show(
+                Summary().With(ProductData()
+                        .Named(aProduct)
+                        .Costing(cost))
+                    .With(ProductData()
+                        .Named(aProduct)
+                        .Costing(cost))
+                    .WithTotalCost(200.0m)
                     .Build()
             );
         }
