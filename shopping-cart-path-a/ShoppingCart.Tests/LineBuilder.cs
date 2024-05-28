@@ -23,9 +23,9 @@ public class LineBuilder
         return this;
     }
 
-    public Line Build()
+    public ProductDto Build()
     {
-        return new Line(_productName, _priceWithVat);
+        return new ProductDto(_productName, _priceWithVat);
     }
 
     public static LineBuilder LineForProduct()

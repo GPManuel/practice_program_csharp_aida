@@ -15,4 +15,14 @@ public class Discount
     {
         return totalCost * (1 - _amount);
     }
+
+    public decimal Amount()
+    {
+        return _amount;
+    }
+
+    public DiscountCode DiscountCode()
+    {
+        return _discountCode;
+    }
 }

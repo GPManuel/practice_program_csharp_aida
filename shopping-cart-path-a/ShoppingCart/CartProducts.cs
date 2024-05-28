@@ -27,9 +27,9 @@ internal class CartProducts
         return _products.Sum(p => p.ComputeCost());
     }
 
-    public ContentsSummary CreateContentsSummary()
+    public ContentsSummary CreateContentsSummary(Discount discount)
     {
-        var lines = _products.Select(p => new Line(p.Name, p.ComputeCost())).ToList();
-        return new ContentsSummary(lines);
+        var lines = _products.Select(p => new ProductDto(p.Name, p.ComputeCost())).ToList();
+        return new ContentsSummary(lines, discount.Apply(ComputeAllProductsCost()), new DiscountDto(discount.DiscountCode(), discount.Amount()));
     }
 }

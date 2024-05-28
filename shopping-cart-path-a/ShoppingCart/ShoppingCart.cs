@@ -56,7 +56,7 @@ public class ShoppingCart
 
     public void Display()
     {
-        var contentsSummary = _cartProducts.CreateContentsSummary();
+        var contentsSummary = _cartProducts.CreateContentsSummary(_discount);
         _display.Show(contentsSummary);
     }
 

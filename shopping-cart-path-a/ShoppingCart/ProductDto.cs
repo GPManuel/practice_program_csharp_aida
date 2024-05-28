@@ -2,18 +2,18 @@ using System;
 
 namespace ShoppingCart;
 
-public class Line 
+public class ProductDto 
 {
     private readonly string _productName;
     private readonly decimal _priceWithVat;
 
-    public Line(string productName, decimal priceWithVat)
+    public ProductDto(string productName, decimal priceWithVat)
     {
         _productName = productName;
         _priceWithVat = priceWithVat;
     }
 
-    protected bool Equals(Line other)
+    protected bool Equals(ProductDto other)
     {
         return _productName == other._productName && _priceWithVat.Equals(other._priceWithVat);
     }
@@ -23,7 +23,7 @@ public class Line
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != this.GetType()) return false;
-        return Equals((Line)obj);
+        return Equals((ProductDto)obj);
     }
 
     public override int GetHashCode()

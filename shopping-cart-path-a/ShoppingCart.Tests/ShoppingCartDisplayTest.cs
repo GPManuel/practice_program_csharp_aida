@@ -47,8 +47,34 @@ namespace ShoppingCart.Tests
             _display.Received(1).Show(
                 Summary().With(LineForProduct()
                                             .Named(aProduct)
-                                            .Costing(cost)).Build()
+                                            .Costing(cost))
+                                       .WithTotalCost(cost)
+                                       .Build()
                 );
+        }
+
+        [Test]
+        public void displaying_cart_with_one_product_tax_free_and_no_revenue_with_discount()
+        {
+            var aProduct = "Iceberg";
+            var cost = 100.0m;
+            var discountCode = DiscountCode.PROMO_5;
+            _productsRepository.Get(aProduct).Returns(TaxFreeWithNoRevenueProduct().Named(aProduct).Costing(cost).Build());
+            var discount = new Discount(discountCode, 0.05m);
+            _discountsRepository.Get(discountCode).Returns(discount);
+
+            _shoppingCart.AddItem(aProduct);
+            _shoppingCart.ApplyDiscount(discountCode);
+            _shoppingCart.Display();
+
+            _display.Received(1).Show(
+                Summary().With(LineForProduct()
+                        .Named(aProduct)
+                        .Costing(cost))
+                    .WithTotalCost(95.0m)
+                    .WithDiscount(new DiscountDto(discountCode, 0.05m))
+                    .Build()
+            );
         }
     }
 }
