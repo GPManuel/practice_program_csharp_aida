@@ -44,7 +44,7 @@ namespace ShoppingCart.Tests
         }
 
         [Test]
-        public void display_cart_with_two_different_product()
+        public void display_cart_with_two_different_products()
         {
             var summary = ContentsSummaryBuilder.Summary().With(ProductData().Named("Iceberg").Costing(1))
                 .With(ProductData().Named("Tomato").Costing(2))
@@ -56,6 +56,21 @@ namespace ShoppingCart.Tests
             summaryText += ProductLine("Iceberg", "1.00", 1);
             summaryText += ProductLine("Tomato", "2.00", 1);
             summaryText += Footer(2, "3.00");
+            _display.Received(1).Display(summaryText);
+        }
+
+        [Test]
+        public void display_cart_with_two_same_products()
+        {
+            var summary = ContentsSummaryBuilder.Summary().With(ProductData().Named("Iceberg").Costing(1))
+                .With(ProductData().Named("Iceberg").Costing(1))
+                .WithTotalPrice(2).Build();
+
+            _consoleReport.Show(summary);
+
+            var summaryText = Header();
+            summaryText += ProductLine("Iceberg", "1.00", 2);
+            summaryText += Footer(2, "2.00");
             _display.Received(1).Display(summaryText);
         }
 
