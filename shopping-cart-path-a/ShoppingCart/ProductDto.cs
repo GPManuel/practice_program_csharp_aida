@@ -35,4 +35,14 @@ public class ProductDto
     {
         return $"{nameof(_productName)}: {_productName}, {nameof(_priceWithVat)}: {_priceWithVat}";
     }
+
+    public string Name()
+    {
+        return _productName;
+    }
+
+    public decimal Price()
+    {
+        return _priceWithVat;
+    }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -43,5 +44,10 @@ public record ContentsSummary
     public decimal TotalCost()
     {
         return _totalCost;
+    }
+
+    public IEnumerable<ProductDto> Products()
+    {
+        return new List<ProductDto>(_productDtos);
     }
 }

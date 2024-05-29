@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace ShoppingCart;
 
@@ -19,11 +21,31 @@ public class ConsoleReport : Report
         var summaryText = string.Empty;
         if (contentsSummary.TotalProducts() != 0)
         {
-            summaryText = $"Product name, Price with VAT, Quantity{Environment.NewLine}";
-            summaryText += $"Iceberg, 1.00€, 1{Environment.NewLine}";
+            summaryText = Header();
+            summaryText += FormatProductsLines(contentsSummary);
         }
-        summaryText +=
-            $"Total products: {contentsSummary.TotalProducts()}{Environment.NewLine}Total price: {contentsSummary.TotalCost().ToString("F2", _culture)}€";
+        summaryText += Footer(contentsSummary);
         _display.Display(summaryText);
+    }
+
+    private static string Header()
+    {
+        return $"Product name, Price with VAT, Quantity{Environment.NewLine}";
+    }
+
+    private string FormatProductsLines(ContentsSummary contentsSummary)
+    {
+        var lines = contentsSummary.Products().Select(product => $"{product.Name()}, {FormatPrice(product.Price())}, 1{Environment.NewLine}").ToList();
+        return string.Join(string.Empty, lines);
+    }
+
+    private string Footer(ContentsSummary contentsSummary)
+    {
+        return $"Total products: {contentsSummary.TotalProducts()}{Environment.NewLine}Total price: {FormatPrice(contentsSummary.TotalCost())}";
+    }
+
+    private string FormatPrice(decimal price)
+    {
+        return price.ToString("F2", _culture)+"€";
     }
 }
