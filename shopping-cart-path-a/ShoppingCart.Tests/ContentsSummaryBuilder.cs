@@ -19,7 +19,7 @@ public class ContentsSummaryBuilder
         return this;
     }
 
-    public ContentsSummaryBuilder WithTotalCost(decimal totalCost)
+    public ContentsSummaryBuilder WithTotalPrice(decimal totalCost)
     {
         _totalCost = totalCost;
         return this;

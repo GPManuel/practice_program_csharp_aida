@@ -46,7 +46,7 @@ namespace ShoppingCart.Tests
                 Summary().With(ProductData()
                                             .Named(aProduct)
                                             .Costing(cost))
-                                       .WithTotalCost(cost)
+                                       .WithTotalPrice(cost)
                                        .Build()
                 );
         }
@@ -69,7 +69,7 @@ namespace ShoppingCart.Tests
                 Summary().With(ProductData()
                         .Named(aProduct)
                         .Costing(cost))
-                    .WithTotalCost(95.0m)
+                    .WithTotalPrice(95.0m)
                     .WithDiscount(new DiscountDto(discountCode, 0.05m))
                     .Build()
             );
@@ -93,7 +93,7 @@ namespace ShoppingCart.Tests
                     .With(ProductData()
                         .Named(aProduct)
                         .Costing(cost))
-                    .WithTotalCost(200.0m)
+                    .WithTotalPrice(200.0m)
                     .Build()
             );
         }
