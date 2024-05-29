@@ -50,4 +50,14 @@ public record ContentsSummary
     {
         return new List<ProductDto>(_productDtos);
     }
+
+    public decimal DiscountPercent()
+    {
+        return _discount.Amount * 100;
+    }
+
+    public DiscountCode GetDiscountCode()
+    {
+        return _discount.DiscountCode;
+    }
 }

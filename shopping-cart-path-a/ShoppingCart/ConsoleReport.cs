@@ -19,14 +19,41 @@ public class ConsoleReport : Report
 
     public void Show(ContentsSummary contentsSummary)
     {
+        var summaryText = FormatSummary(contentsSummary);
+        _display.Display(summaryText);
+    }
+
+    private string FormatSummary(ContentsSummary contentsSummary)
+    {
         var summaryText = string.Empty;
         if (contentsSummary.TotalProducts() != 0)
         {
             summaryText = Header();
             summaryText += FormatProductsLines(contentsSummary);
         }
+
+        if (HasDiscount(contentsSummary))
+        {
+            summaryText += FormatPromotion(contentsSummary);
+        }
+
         summaryText += Footer(contentsSummary);
-        _display.Display(summaryText);
+        return summaryText;
+    }
+
+    private static bool HasDiscount(ContentsSummary contentsSummary)
+    {
+        return contentsSummary.GetDiscountCode() != DiscountCode.None;
+    }
+
+    private string FormatPromotion(ContentsSummary contentsSummary)
+    {
+        return $"Promotion: {FormatPercent(contentsSummary.DiscountPercent())} off with code {contentsSummary.GetDiscountCode()}{Environment.NewLine}";
+    }
+
+    private string FormatPercent(decimal discountPercent)
+    {
+        return discountPercent.ToString("F0", _culture) + "%";
     }
 
     private static string Header()

@@ -74,6 +74,22 @@ namespace ShoppingCart.Tests
             _display.Received(1).Display(summaryText);
         }
 
+        [Test]
+        public void display_cart_with_applied_discount_code()
+        {
+            var summary = ContentsSummaryBuilder.Summary().With(ProductData().Named("Iceberg").Costing(1))
+                .WithDiscount(new DiscountDto(DiscountCode.PROMO_10, 0.1M))
+                .WithTotalPrice(0.9M).Build();
+
+            _consoleReport.Show(summary);
+
+            var summaryText = Header();
+            summaryText += ProductLine("Iceberg", "1.00", 1);
+            summaryText += $"Promotion: 10% off with code PROMO_10{Environment.NewLine}";
+            summaryText += Footer(1, "0.90");
+            _display.Received(1).Display(summaryText);
+        }
+
         private static string ProductLine(string name, string price, int quantity)
         {
             return $"{name}, {price}€, {quantity}{Environment.NewLine}";
