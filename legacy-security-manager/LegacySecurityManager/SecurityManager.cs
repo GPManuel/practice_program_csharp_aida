@@ -6,24 +6,24 @@ public class SecurityManager
 {
     public void CreateSecurityUser()
     {
-        Console.WriteLine("Enter a username");
+        PrintMessage("Enter a username");
         var username = Console.ReadLine();
-        Console.WriteLine("Enter your full name");
+        PrintMessage("Enter your full name");
         var fullName = Console.ReadLine();
-        Console.WriteLine("Enter your password");
+        PrintMessage("Enter your password");
         var password = Console.ReadLine();
-        Console.WriteLine("Re-enter your password");
+        PrintMessage("Re-enter your password");
         var confirmPassword = Console.ReadLine();
 
         if (password != confirmPassword)
         {
-            Console.WriteLine("The passwords don't match");
+            PrintMessage("The passwords don't match");
             return;
         }
 
         if (password.Length < 8)
         {
-            Console.WriteLine("Password must be at least 8 characters in length");
+            PrintMessage("Password must be at least 8 characters in length");
             return;
         }
 
@@ -32,6 +32,11 @@ public class SecurityManager
         Array.Reverse(array);
 
         Console.WriteLine("Saving Details for User ({0}, {1}, {2})\n", username, fullName, new string(array));
+    }
+
+    protected virtual void PrintMessage(string message)
+    {
+        Console.WriteLine(message);
     }
 
     public static void CreateUser()
