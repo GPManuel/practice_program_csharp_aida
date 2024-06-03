@@ -31,6 +31,11 @@ public class SecurityManager
         char[] array = password.ToCharArray();
         Array.Reverse(array);
 
+        PrintMessageWithDetails(username, fullName, array);
+    }
+
+    protected virtual void PrintMessageWithDetails(string username, string fullName, char[] array)
+    {
         Console.WriteLine("Saving Details for User ({0}, {1}, {2})\n", username, fullName, new string(array));
     }
 
