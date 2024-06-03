@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 
 namespace LegacySecurityManager;
 
@@ -7,13 +8,13 @@ public class SecurityManager
     public void CreateSecurityUser()
     {
         PrintMessage("Enter a username");
-        var username = Console.ReadLine();
+        var username = ReadMessage();
         PrintMessage("Enter your full name");
-        var fullName = Console.ReadLine();
+        var fullName = ReadMessage();
         PrintMessage("Enter your password");
-        var password = Console.ReadLine();
+        var password = ReadMessage();
         PrintMessage("Re-enter your password");
-        var confirmPassword = Console.ReadLine();
+        var confirmPassword = ReadMessage();
 
         if (password != confirmPassword)
         {
@@ -31,12 +32,17 @@ public class SecurityManager
         char[] array = password.ToCharArray();
         Array.Reverse(array);
 
-        PrintMessageWithDetails(username, fullName, array);
+        PrintSavingDetails(username, fullName, array);
     }
 
-    protected virtual void PrintMessageWithDetails(string username, string fullName, char[] array)
+    private void PrintSavingDetails(string username, string fullName, char[] array)
     {
-        Console.WriteLine("Saving Details for User ({0}, {1}, {2})\n", username, fullName, new string(array));
+        PrintMessage(String.Format("Saving Details for User ({0}, {1}, {2})\n", username, fullName, new string(array)));
+    }
+
+    protected virtual string ReadMessage()
+    {
+        return Console.ReadLine();
     }
 
     protected virtual void PrintMessage(string message)
