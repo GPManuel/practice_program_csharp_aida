@@ -4,7 +4,7 @@ namespace LegacySecurityManager;
 
 public class SecurityManager
 {
-    public static void CreateUser()
+    public void CreateSecurityUser()
     {
         Console.WriteLine("Enter a username");
         var username = Console.ReadLine();
@@ -32,5 +32,10 @@ public class SecurityManager
         Array.Reverse(array);
 
         Console.WriteLine("Saving Details for User ({0}, {1}, {2})\n", username, fullName, new string(array));
+    }
+
+    public static void CreateUser()
+    {
+        new SecurityManager().CreateSecurityUser();
     }
 }
