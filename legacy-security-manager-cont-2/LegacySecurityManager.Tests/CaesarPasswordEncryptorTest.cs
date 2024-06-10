@@ -36,4 +36,15 @@ public class CaesarPasswordEncryptorTest
 
         Assert.That(encryptedPassword, Is.EqualTo("ABC"));
     }
+
+    [Test]
+    public void not_encrypt_when_characters_not_belongs_to_alphabet()
+    {
+        var password = "A_B*C 1";
+        var caesarPasswordEncryptor = new CaesarPasswordEncryptor(2);
+
+        var encryptedPassword = caesarPasswordEncryptor.Encrypt(password);
+
+        Assert.That(encryptedPassword, Is.EqualTo("C_D*E 1"));
+    }
 }

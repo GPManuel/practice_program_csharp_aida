@@ -19,10 +19,12 @@ public class CaesarPasswordEncryptor : PasswordEncryptor
 
     private char Transform(char character)
     {
-        var passwordTranformed = 'a';
         var index = alphabet.IndexOf(character);
-        passwordTranformed = alphabet[_shift + index];
+        if (index == -1)
+        {
+            return character;
+        }
 
-        return passwordTranformed;
+        return alphabet[_shift + index];
     }
 }
