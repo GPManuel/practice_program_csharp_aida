@@ -25,4 +25,15 @@ public class CaesarPasswordEncryptorTest
 
         Assert.That(encryptedPassword, Is.EqualTo("CDE"));
     }
+
+    [Test]
+    public void move_character_to_left_when_shift_is_negative()
+    {
+        var password = "BCD";
+        var caesarPasswordEncryptor = new CaesarPasswordEncryptor(-1);
+
+        var encryptedPassword = caesarPasswordEncryptor.Encrypt(password);
+
+        Assert.That(encryptedPassword, Is.EqualTo("ABC"));
+    }
 }

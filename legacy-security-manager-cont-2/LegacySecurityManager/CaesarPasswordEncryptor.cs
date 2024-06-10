@@ -14,11 +14,7 @@ public class CaesarPasswordEncryptor : PasswordEncryptor
 
     public string Encrypt(string password)
     {
-        if (_shift > 0)
-        {
-            return new string(password.Select(character => Transform(character)).ToArray());
-        }
-        return password;
+        return new string(password.Select(character => Transform(character)).ToArray());
     }
 
     private char Transform(char character)
