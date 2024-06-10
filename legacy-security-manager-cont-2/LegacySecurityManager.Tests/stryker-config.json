@@ -1,0 +1,7 @@
+﻿{
+  "stryker-config": {
+    "solution": "../LegacySecurityManager.sln",
+    "project": "LegacySecurityManager.Test.csproj",
+    "additional-timeout": 50000
+  }
+}
