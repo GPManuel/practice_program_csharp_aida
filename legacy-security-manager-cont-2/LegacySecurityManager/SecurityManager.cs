@@ -24,19 +24,19 @@ public class SecurityManager
     {
         var userData = _userDataRequester.Request();
 
-        if (PasswordsDoNotMatch(userData.Password(), userData.ConfirmPassword()))
+        if (userData.PasswordsDoNotMatch())
         {
             NotifyPasswordDoNotMatch();
             return;
         }
 
-        if (IsPasswordToShort(userData.Password()))
+        if (userData.IsPasswordToShort())
         {
             NotifyPasswordIsToShort();
             return;
         }
 
-        var encryptedPassword = EncryptPassword(userData.Password());
+        var encryptedPassword = userData.EncryptPassword();
         NotifyUserCreation(userData.UserName(), userData.FullName(), encryptedPassword);
     }
 
@@ -53,24 +53,6 @@ public class SecurityManager
     private void NotifyUserCreation(string username, string fullName, string encryptedPassword)
     {
         Print($"Saving Details for User ({username}, {fullName}, {encryptedPassword})\n");
-    }
-
-    private static string EncryptPassword(string password)
-    {
-        var array = password.ToCharArray();
-        Array.Reverse(array);
-        var encryptedPassword = new string(array);
-        return encryptedPassword;
-    }
-
-    private static bool IsPasswordToShort(string password)
-    {
-        return password.Length < 8;
-    }
-
-    private static bool PasswordsDoNotMatch(string password, string confirmPassword)
-    {
-        return password != confirmPassword;
     }
 
     private void Print(string message)

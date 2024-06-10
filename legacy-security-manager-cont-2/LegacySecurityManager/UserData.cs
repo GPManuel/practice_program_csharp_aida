@@ -16,20 +16,35 @@ public class UserData {
         _confirmPassword = confirmPassword;
     }
 
-    public string Password() {
-        return _password;
-    }
-
-    public string ConfirmPassword() {
-        return _confirmPassword;
-    }
-
     public string UserName() {
         return _username;
     }
 
     public string FullName() {
         return _fullName;
+    }
+
+    public bool PasswordsDoNotMatch() {
+        return this.Password() != this.ConfirmPassword();
+    }
+
+    public bool IsPasswordToShort() {
+        return this.Password().Length < 8;
+    }
+
+    public string EncryptPassword() {
+        var array = this.Password().ToCharArray();
+        Array.Reverse((Array)array);
+        var encryptedPassword = new string(array);
+        return encryptedPassword;
+    }
+
+    private string Password() {
+        return _password;
+    }
+
+    private string ConfirmPassword() {
+        return _confirmPassword;
     }
 
     protected bool Equals(UserData other)
