@@ -5,20 +5,18 @@ namespace LegacySecurityManager;
 public class SecurityManager
 {
     private readonly Notifier _notifier;
-
     private ConsoleUserDataRequester _userDataRequester;
-    private ReversePasswordEncrypter _reversePasswordEncrypter;
+    private PasswordEncrypter _reversePasswordEncrypter;
 
-    public SecurityManager(Notifier notifier, Input input)
-    {
+    public SecurityManager(Notifier notifier, Input input, PasswordEncrypter passwordEncrypter) {
         _notifier = notifier;
         _userDataRequester = new ConsoleUserDataRequester(input);
-        _reversePasswordEncrypter = new ReversePasswordEncrypter();
+        _reversePasswordEncrypter = passwordEncrypter;
     }
 
     public static void CreateUser() {
         Notifier notifier = new ConsoleNotifier();
-        new SecurityManager(notifier, new ConsoleInput()).CreateValidUser();
+        new SecurityManager(notifier, new ConsoleInput(), new ReversePasswordEncrypter()).CreateValidUser();
     }
 
     public void CreateValidUser()
