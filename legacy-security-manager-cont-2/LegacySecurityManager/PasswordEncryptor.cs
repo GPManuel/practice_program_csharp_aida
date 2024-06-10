@@ -1,5 +1,5 @@
 namespace LegacySecurityManager;
 
-public interface PasswordEncrypter {
+public interface PasswordEncryptor {
     string Encrypt(string password);
 }

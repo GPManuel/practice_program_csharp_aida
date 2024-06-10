@@ -16,7 +16,7 @@ public class SecurityManagerAcceptanceTest
     {
         _notifier = Substitute.For<Notifier>();
         _input = Substitute.For<Input>();
-        _securityManager = new SecurityManager(_notifier, _input, new ReversePasswordEncrypter());
+        _securityManager = new SecurityManager(_notifier, _input, new ReversePasswordEncryptor());
     }
 
     [Test]

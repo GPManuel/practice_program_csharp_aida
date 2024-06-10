@@ -6,17 +6,17 @@ public class SecurityManager
 {
     private readonly Notifier _notifier;
     private ConsoleUserDataRequester _userDataRequester;
-    private PasswordEncrypter _reversePasswordEncrypter;
+    private PasswordEncryptor _reversePasswordEncryptor;
 
-    public SecurityManager(Notifier notifier, Input input, PasswordEncrypter passwordEncrypter) {
+    public SecurityManager(Notifier notifier, Input input, PasswordEncryptor passwordEncryptor) {
         _notifier = notifier;
         _userDataRequester = new ConsoleUserDataRequester(input);
-        _reversePasswordEncrypter = passwordEncrypter;
+        _reversePasswordEncryptor = passwordEncryptor;
     }
 
     public static void CreateUser() {
         Notifier notifier = new ConsoleNotifier();
-        new SecurityManager(notifier, new ConsoleInput(), new ReversePasswordEncrypter()).CreateValidUser();
+        new SecurityManager(notifier, new ConsoleInput(), new ReversePasswordEncryptor()).CreateValidUser();
     }
 
     public void CreateValidUser()
@@ -35,7 +35,7 @@ public class SecurityManager
             return;
         }
 
-        var encryptedPassword = _reversePasswordEncrypter.Encrypt(userData.Password());
+        var encryptedPassword = _reversePasswordEncryptor.Encrypt(userData.Password());
         NotifyUserCreation(userData.UserName(), userData.FullName(), encryptedPassword);
     }
 

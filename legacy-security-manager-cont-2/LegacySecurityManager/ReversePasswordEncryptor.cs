@@ -2,7 +2,7 @@ using System;
 
 namespace LegacySecurityManager;
 
-public class ReversePasswordEncrypter : PasswordEncrypter {
+public class ReversePasswordEncryptor : PasswordEncryptor {
     public string Encrypt(string password) {
         var array = password.ToCharArray();
         Array.Reverse((Array)array);
