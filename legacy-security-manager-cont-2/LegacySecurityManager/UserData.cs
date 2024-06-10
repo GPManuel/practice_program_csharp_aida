@@ -32,14 +32,7 @@ public class UserData {
         return this.Password().Length < 8;
     }
 
-    public string EncryptPassword() {
-        var array = this.Password().ToCharArray();
-        Array.Reverse((Array)array);
-        var encryptedPassword = new string(array);
-        return encryptedPassword;
-    }
-
-    private string Password() {
+    public string Password() {
         return _password;
     }
 

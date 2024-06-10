@@ -1,4 +1,3 @@
-using System;
 using LegacySecurityManager.infrastructure;
 
 namespace LegacySecurityManager;
@@ -8,11 +7,13 @@ public class SecurityManager
     private readonly Notifier _notifier;
 
     private ConsoleUserDataRequester _userDataRequester;
+    private ReversePasswordEncrypter _reversePasswordEncrypter;
 
     public SecurityManager(Notifier notifier, Input input)
     {
         _notifier = notifier;
         _userDataRequester = new ConsoleUserDataRequester(input);
+        _reversePasswordEncrypter = new ReversePasswordEncrypter();
     }
 
     public static void CreateUser() {
@@ -36,7 +37,7 @@ public class SecurityManager
             return;
         }
 
-        var encryptedPassword = userData.EncryptPassword();
+        var encryptedPassword = _reversePasswordEncrypter.Encrypt(userData.Password());
         NotifyUserCreation(userData.UserName(), userData.FullName(), encryptedPassword);
     }
 
