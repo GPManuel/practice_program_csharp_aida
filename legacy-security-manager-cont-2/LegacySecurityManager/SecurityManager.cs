@@ -7,17 +7,17 @@ public class SecurityManager
 {
     private readonly Notifier _notifier;
 
-    private UserDataRequester _userDataRequester;
+    private ConsoleUserDataRequester _userDataRequester;
 
-    public SecurityManager(Notifier notifier, UserDataRequester userDataRequester)
+    public SecurityManager(Notifier notifier, Input input)
     {
         _notifier = notifier;
-        _userDataRequester = userDataRequester;
+        _userDataRequester = new ConsoleUserDataRequester(input);
     }
 
     public static void CreateUser() {
         Notifier notifier = new ConsoleNotifier();
-        new SecurityManager(notifier, new ConsoleUserDataRequester(new ConsoleInput())).CreateValidUser();
+        new SecurityManager(notifier, new ConsoleInput()).CreateValidUser();
     }
 
     public void CreateValidUser()

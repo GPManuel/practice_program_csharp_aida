@@ -1,11 +1,12 @@
 namespace LegacySecurityManager;
 
-public class ConsoleUserDataRequester : UserDataRequester {
+public class ConsoleUserDataRequester{
     private Input input;
 
     public ConsoleUserDataRequester(Input input) {
         this.input = input;
     }
+
     public UserData Request() {
 
         return new UserData(RequestUserName(), RequestFullName(), RequestPassword(), RequestPasswordConfirmation());
