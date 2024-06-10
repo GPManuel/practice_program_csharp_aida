@@ -47,4 +47,26 @@ public class CaesarPasswordEncryptorTest
 
         Assert.That(encryptedPassword, Is.EqualTo("C_D*E 1"));
     }
+    
+    [Test]
+    public void wrap_around_when_you_reach_the_end_of_the_alphabet()
+    {
+        var password = "XYZ";
+        var caesarPasswordEncryptor = new CaesarPasswordEncryptor(1);
+
+        var encryptedPassword = caesarPasswordEncryptor.Encrypt(password);
+
+        Assert.That(encryptedPassword, Is.EqualTo("YZA"));
+    }
+
+    [Test]
+    public void wrap_around_when_you_reach_the_beginning_of_the_alphabet()
+    {
+        var password = "ABC";
+        var caesarPasswordEncryptor = new CaesarPasswordEncryptor(-1);
+
+        var encryptedPassword = caesarPasswordEncryptor.Encrypt(password);
+
+        Assert.That(encryptedPassword, Is.EqualTo("ZAB"));
+    }
 }

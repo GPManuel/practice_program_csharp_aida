@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Design;
+using System.Linq;
 
 namespace LegacySecurityManager;
 
@@ -25,6 +26,15 @@ public class CaesarPasswordEncryptor : PasswordEncryptor
             return character;
         }
 
-        return alphabet[_shift + index];
+        var characterPosition = _shift + index;
+        if (characterPosition > alphabet.Length-1)
+        {
+            return alphabet[characterPosition-alphabet.Length];
+        }
+        else if (characterPosition < 0)
+        {
+            return alphabet[characterPosition+alphabet.Length];
+        }
+        return alphabet[characterPosition];
     }
 }
