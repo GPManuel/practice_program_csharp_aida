@@ -23,6 +23,7 @@ namespace Hello.Tests
             _helloService.Hello();
 
             _notifier.Received(1).Notify("Buenas noches!");
+            _notifier.Received(1).Notify(Arg.Any<string>());
         }
 
         [TestCase(6)]
@@ -46,6 +47,7 @@ namespace Hello.Tests
             _helloService.Hello();
 
             _notifier.Received(1).Notify("Buenas tardes!");
+            _notifier.Received(1).Notify(Arg.Any<string>());
         }
     }
 }
