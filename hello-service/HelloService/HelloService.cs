@@ -16,20 +16,27 @@ public class HelloService
     public void Hello()
     {
         var time = _clock.WhatTimeItIs();
+        var greeting = GetGreetingMessage(time);
+        _notifier.Notify(greeting);
+    }
 
+    private static string GetGreetingMessage(TimeOnly time)
+    {
+        string greeting;
         if (Morning().Contains(time))
         {
-            _notifier.Notify("Buenos días!");
-            return;
+            greeting = "Buenos días!";
         }
-
-        if (Afternoon().Contains(time))
+        else if (Afternoon().Contains(time))
         {
-            _notifier.Notify("Buenas tardes!");
-            return;
+            greeting = "Buenas tardes!";
+        }
+        else
+        {
+            greeting = "Buenas noches!";
         }
 
-        _notifier.Notify("Buenas noches!");
+        return greeting;
     }
 
     private static TimeInterval Afternoon()
