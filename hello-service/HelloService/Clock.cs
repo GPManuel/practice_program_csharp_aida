@@ -4,5 +4,5 @@ namespace Hello;
 
 public interface Clock
 {
-    TimeSpan WhatTimeItIs();
+    TimeOnly WhatTimeItIs();
 }

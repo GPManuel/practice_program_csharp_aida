@@ -22,7 +22,7 @@ public class HelloService
             _notifier.Notify("Buenos días!");
         }
 
-        if (time > new TimeSpan(12, 0, 0) && time < new TimeSpan(20, 0, 0))
+        if (time.IsBetween(new TimeOnly(12, 0, 0), new TimeOnly(20, 0, 0)))
         {
             _notifier.Notify("Buenas tardes!");
         }
@@ -30,8 +30,8 @@ public class HelloService
         _notifier.Notify("Buenas noches!");
     }
 
-    private static bool TimeIsInTheMorning(TimeSpan time)
+    private static bool TimeIsInTheMorning(TimeOnly time)
     {
-        return time >= new TimeSpan(6, 0, 0) && time <= new TimeSpan(12, 0, 0);
+        return time.IsBetween(new TimeOnly(6, 0, 0), new TimeOnly(12, 0, 0));
     }
 }
