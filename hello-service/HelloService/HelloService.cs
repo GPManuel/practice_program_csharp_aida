@@ -20,11 +20,13 @@ public class HelloService
         if (TimeIsInTheMorning(time))
         {
             _notifier.Notify("Buenos días!");
+            return;
         }
 
         if (TimeIsInTheAfternoon(time))
         {
             _notifier.Notify("Buenas tardes!");
+            return;
         }
 
         _notifier.Notify("Buenas noches!");

@@ -25,14 +25,17 @@ namespace Hello.Tests
             _notifier.Received(1).Notify("Buenas noches!");
         }
 
-        [Test]
-        public void greet_good_morning_between_6am_and_12am()
+        [TestCase(6)]
+        [TestCase(9)]
+        [TestCase(12)]
+        public void greet_good_morning_between_6am_and_12am(int hour)
         {
-            _clock.WhatTimeItIs().Returns(new TimeOnly(12, 0, 0));
+            _clock.WhatTimeItIs().Returns(new TimeOnly(hour, 0, 0));
 
             _helloService.Hello();
 
-            _notifier.Received(1).Notify("Buenos días!");
+            _notifier.Received(1).Notify("Buenos días!"); 
+            _notifier.Received(1).Notify(Arg.Any<string>());
         }
 
         [Test]
