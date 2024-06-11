@@ -22,7 +22,7 @@ public class HelloService
             _notifier.Notify("Buenos días!");
         }
 
-        if (time.IsBetween(new TimeOnly(12, 0, 0), new TimeOnly(20, 0, 0)))
+        if (TimeIsInTheAfternoon(time))
         {
             _notifier.Notify("Buenas tardes!");
         }
@@ -33,5 +33,10 @@ public class HelloService
     private static bool TimeIsInTheMorning(TimeOnly time)
     {
         return time.IsBetween(new TimeOnly(6, 0, 0), new TimeOnly(12, 0, 0));
+    }
+
+    private static bool TimeIsInTheAfternoon(TimeOnly time)
+    {
+        return time.IsBetween(new TimeOnly(12, 0, 0), new TimeOnly(20, 0, 0));
     }
 }
