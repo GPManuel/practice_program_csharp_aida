@@ -1,3 +1,4 @@
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Hello.Tests
@@ -5,9 +6,15 @@ namespace Hello.Tests
     public class HelloServiceTest
     {
         [Test]
-        public void Canary_Test()
+        public void greet_good_night()
         {
-            Assert.That(true, Is.True);
+            var notifier = Substitute.For<Notifier>();
+            var clock = Substitute.For<Clock>();
+            var helloService = new HelloService(notifier, clock);
+
+            helloService.Hello();
+
+            notifier.Received(1).Notify("Buenas noches!");
         }
     }
 }
