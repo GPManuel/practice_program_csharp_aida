@@ -32,11 +32,11 @@ public class HelloService
 
     private static bool TimeIsInTheMorning(TimeOnly time)
     {
-        return time.IsBetween(new TimeOnly(6, 0, 0), new TimeOnly(12, 0, 0));
+        return time >= new TimeOnly(6, 0, 0) && time <= new TimeOnly(12, 0, 0);
     }
 
     private static bool TimeIsInTheAfternoon(TimeOnly time)
     {
-        return time.IsBetween(new TimeOnly(12, 0, 0), new TimeOnly(20, 0, 0));
+        return time > new TimeOnly(12, 0, 0) && time < new TimeOnly(20, 0, 0);
     }
 }

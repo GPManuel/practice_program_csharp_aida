@@ -28,7 +28,7 @@ namespace Hello.Tests
         [Test]
         public void greet_good_morning_between_6am_and_12am()
         {
-            _clock.WhatTimeItIs().Returns(new TimeOnly(6, 0, 0));
+            _clock.WhatTimeItIs().Returns(new TimeOnly(12, 0, 0));
 
             _helloService.Hello();
 
@@ -38,7 +38,7 @@ namespace Hello.Tests
         [Test]
         public void greet_good_afternoon_between_12am_and_8pm()
         {
-            _clock.WhatTimeItIs().Returns(new TimeOnly(12, 0, 0));
+            _clock.WhatTimeItIs().Returns(new TimeOnly(12, 0, 1));
 
             _helloService.Hello();
 
