@@ -17,13 +17,13 @@ public class HelloService
     {
         var time = _clock.WhatTimeItIs();
 
-        if (TimeIsInTheMorning(time))
+        if (Morning().Contains(time))
         {
             _notifier.Notify("Buenos días!");
             return;
         }
 
-        if (TimeIsInTheAfternoon(time))
+        if (Afternoon().Contains(time))
         {
             _notifier.Notify("Buenas tardes!");
             return;
@@ -32,13 +32,13 @@ public class HelloService
         _notifier.Notify("Buenas noches!");
     }
 
-    private static bool TimeIsInTheMorning(TimeOnly time)
+    private static TimeInterval Afternoon()
     {
-        return time >= new TimeOnly(6, 0, 0) && time <= new TimeOnly(12, 0, 0);
+        return new TimeInterval(new TimeOnly(12, 0, 0), new TimeOnly(20, 0, 0));
     }
 
-    private static bool TimeIsInTheAfternoon(TimeOnly time)
+    private static TimeInterval Morning()
     {
-        return time > new TimeOnly(12, 0, 0) && time < new TimeOnly(20, 0, 0);
+        return new TimeInterval(new TimeOnly(6, 0, 0), new TimeOnly(12, 0, 0));
     }
 }
