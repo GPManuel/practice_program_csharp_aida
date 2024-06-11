@@ -5,29 +5,34 @@ namespace Hello.Tests
 {
     public class HelloServiceTest
     {
+        private Notifier _notifier;
+        private Clock _clock;
+        private HelloService _helloService;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _notifier = Substitute.For<Notifier>();
+            _clock = Substitute.For<Clock>();
+            _helloService = new HelloService(_notifier, _clock);
+        }
+
         [Test]
         public void greet_good_night()
         {
-            var notifier = Substitute.For<Notifier>();
-            var clock = Substitute.For<Clock>();
-            var helloService = new HelloService(notifier, clock);
+            _helloService.Hello();
 
-            helloService.Hello();
-
-            notifier.Received(1).Notify("Buenas noches!");
+            _notifier.Received(1).Notify("Buenas noches!");
         }
 
         [Test]
         public void greet_good_morning_between_6am_and_12am()
         {
-            var notifier = Substitute.For<Notifier>();
-            var clock = Substitute.For<Clock>();
-            var helloService = new HelloService(notifier, clock);
-            clock.WhatTimeItIs().Returns(new TimeSpan(6, 0, 0));
+            _clock.WhatTimeItIs().Returns(new TimeSpan(6, 0, 0));
 
-            helloService.Hello();
+            _helloService.Hello();
 
-            notifier.Received(1).Notify("Buenos días!");
+            _notifier.Received(1).Notify("Buenos días!");
         }
     }
 }
