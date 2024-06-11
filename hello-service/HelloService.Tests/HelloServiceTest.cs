@@ -26,7 +26,6 @@ namespace Hello.Tests
         }
 
         [TestCase(6)]
-        [TestCase(9)]
         [TestCase(12)]
         public void greet_good_morning_between_6am_and_12am(int hour)
         {
@@ -38,10 +37,11 @@ namespace Hello.Tests
             _notifier.Received(1).Notify(Arg.Any<string>());
         }
 
-        [Test]
-        public void greet_good_afternoon_between_12am_and_8pm()
+        [TestCase(12,0, 1)]
+        [TestCase(19, 59, 59)]
+        public void greet_good_afternoon_after_12am_and_until_8pm(int hour, int minute, int second)
         {
-            _clock.WhatTimeItIs().Returns(new TimeOnly(12, 0, 1));
+            _clock.WhatTimeItIs().Returns(new TimeOnly(hour, minute, second));
 
             _helloService.Hello();
 
