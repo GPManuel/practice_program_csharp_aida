@@ -17,11 +17,16 @@ public class HelloService
     {
         var time = _clock.WhatTimeItIs();
 
-        if (time >= new TimeSpan(6, 0, 0) && time <= new TimeSpan(12, 0, 0))
+        if (TimeIsInTheMorning(time))
         {
             _notifier.Notify("Buenos días!");
         }
 
         _notifier.Notify("Buenas noches!");
+    }
+
+    private static bool TimeIsInTheMorning(TimeSpan time)
+    {
+        return time >= new TimeSpan(6, 0, 0) && time <= new TimeSpan(12, 0, 0);
     }
 }
