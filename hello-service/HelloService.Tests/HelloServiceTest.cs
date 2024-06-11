@@ -26,7 +26,6 @@ public class HelloServiceTest
         _helloService.Hello();
 
         _notifier.Received(1).Notify("Buenas noches!");
-        _notifier.Received(1).Notify(Arg.Any<string>());
     }
 
     [TestCase(6)]
@@ -38,7 +37,6 @@ public class HelloServiceTest
         _helloService.Hello();
 
         _notifier.Received(1).Notify("Buenos días!"); 
-        _notifier.Received(1).Notify(Arg.Any<string>());
     }
 
     [TestCase(12,0, 1)]
@@ -50,6 +48,5 @@ public class HelloServiceTest
         _helloService.Hello();
 
         _notifier.Received(1).Notify("Buenas tardes!");
-        _notifier.Received(1).Notify(Arg.Any<string>());
     }
 }

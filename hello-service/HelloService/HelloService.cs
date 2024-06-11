@@ -22,21 +22,15 @@ public class HelloService
 
     private static string GetGreetingMessage(TimeOnly time)
     {
-        string greeting;
         if (Morning().Contains(time))
         {
-            greeting = "Buenos días!";
+            return "Buenos días!";
         }
-        else if (Afternoon().Contains(time))
+        if (Afternoon().Contains(time))
         {
-            greeting = "Buenas tardes!";
+            return "Buenas tardes!";
         }
-        else
-        {
-            greeting = "Buenas noches!";
-        }
-
-        return greeting;
+        return "Buenas noches!";
     }
 
     private static TimeInterval Afternoon()
