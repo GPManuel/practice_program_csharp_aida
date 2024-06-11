@@ -34,5 +34,15 @@ namespace Hello.Tests
 
             _notifier.Received(1).Notify("Buenos días!");
         }
+
+        [Test]
+        public void greet_good_afternoon_between_12am_and_8pm()
+        {
+            _clock.WhatTimeItIs().Returns(new TimeSpan(12, 0, 1));
+
+            _helloService.Hello();
+
+            _notifier.Received(1).Notify("Buenas tardes!");
+        }
     }
 }

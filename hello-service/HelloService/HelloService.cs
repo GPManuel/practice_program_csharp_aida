@@ -22,6 +22,11 @@ public class HelloService
             _notifier.Notify("Buenos días!");
         }
 
+        if (time > new TimeSpan(12, 0, 0) && time < new TimeSpan(20, 0, 0))
+        {
+            _notifier.Notify("Buenas tardes!");
+        }
+
         _notifier.Notify("Buenas noches!");
     }
 
