@@ -53,6 +53,16 @@ namespace StockBroker.Tests
             _display.Received(1).Print($"3/5/1999 4:00 PM Buy: € {FormatAmount(expectedPrice)}, Sell: € 0.00");
         }
 
+        [Test]
+        public void place_1_sell_order()
+        {
+            _calendar.GetDate().Returns(Date(1999, 3, 5, 16, 0));
+
+            _stockBrokerClient.PlaceOrders($"ORCL 2 3 S");
+
+            _display.Received(1).Print($"3/5/1999 4:00 PM Buy: € 0.00, Sell: € {FormatAmount(6)}");
+        }
+
         private static string FormatAmount(decimal amount)
         {
             return amount.ToString("F2", new CultureInfo("en-us"));

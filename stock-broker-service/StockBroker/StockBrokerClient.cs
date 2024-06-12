@@ -25,9 +25,17 @@ public class StockBrokerClient
             return;
         }
 
-        var price = decimal.Parse(orderSequence.Split(' ')[2]);
         var quantity = int.Parse(orderSequence.Split(' ')[1]);
-        _display.Print($"{FormatDate(dateTime)} Buy: € {FormatAmount(price*quantity)}, Sell: € 0.00");
+        var price = decimal.Parse(orderSequence.Split(' ')[2]);
+        var orderType = orderSequence.Split(' ')[3];
+        if (orderType.Equals("B"))
+        {
+            _display.Print($"{FormatDate(dateTime)} Buy: € {FormatAmount(price * quantity)}, Sell: € 0.00");
+        }
+        else
+        {
+            _display.Print($"{FormatDate(dateTime)} Buy: € 0.00, Sell: € {FormatAmount(price * quantity)}");
+        }
     }
 
     private string FormatAmount(decimal amount)
