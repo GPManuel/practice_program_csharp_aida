@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace StockBroker;
 
@@ -7,12 +8,24 @@ public class Summary
     private readonly DateTime _orderDate;
     private readonly decimal _buyAmount;
     private readonly decimal _sellAmount;
+    private List<Order> _orders;
 
     public Summary(DateTime orderDate, decimal buyAmount, decimal sellAmount)
     {
         _orderDate = orderDate;
         _buyAmount = buyAmount;
         _sellAmount = sellAmount;
+        _orders = new List<Order>();
+    }
+
+    public void AddOrder(Order order)
+    {
+        _orders.Add(order);
+    }
+
+    public DateTime OrderDate()
+    {
+        return _orderDate;
     }
 
     protected bool Equals(Summary other)
@@ -37,10 +50,5 @@ public class Summary
     {
         return
             $"{nameof(_orderDate)}: {_orderDate}, {nameof(_buyAmount)}: {_buyAmount}, {nameof(_sellAmount)}: {_sellAmount}";
-    }
-
-    public DateTime OrderDate()
-    {
-        return _orderDate;
     }
 }

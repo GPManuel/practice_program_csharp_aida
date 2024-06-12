@@ -1,23 +1,66 @@
+using System.Globalization;
 using NSubstitute;
+using NSubstitute.Core.Arguments;
 using NUnit.Framework;
 
 namespace StockBroker.Tests
 {
     public class StockBrokerClientTest
     {
-        [Test]
-        public void show_summary_after_place_order()
+        private Display _display;
+        private StockBrokerService? _stockBrokerService;
+        private Calendar _calendar;
+        private StockBrokerClient _stockBrokerClient;
+
+        [SetUp]
+        public void SetUp()
         {
-            var display = Substitute.For<Display>();
-            var stockBrokerService = Substitute.For<StockBrokerService>();
-            var calendar = Substitute.For<Calendar>();
-            var stockBrokerClient = new StockBrokerClient(display, stockBrokerService, calendar);
-            var orderDate = new DateTime(2000, 1, 1, 12, 0, 0);
-            calendar.GetDate().Returns(orderDate);
+            _display = Substitute.For<Display>();
+            _stockBrokerService = Substitute.For<StockBrokerService>();
+            _calendar = Substitute.For<Calendar>();
+            _stockBrokerClient = new StockBrokerClient(_display, _stockBrokerService, _calendar);
+        }
 
-            stockBrokerClient.PlaceOrders("");
+        [Test]
+        public void place_empty_order_sequence()
+        {
+            _calendar.GetDate().Returns(Date(2000, 1, 25, 9, 0));
 
-            display.Received(1).Show(new Summary(orderDate, 0m, 0m));
+            _stockBrokerClient.PlaceOrders("");
+
+            _display.Received(1).Print($"1/25/2000 9:00 AM Buy: € 0.00, Sell: € 0.00");
+        }
+
+        [TestCase(829.08)]
+        [TestCase(745)]
+        public void place_1_buy_order_of_1_stock(decimal price)
+        {
+            _calendar.GetDate().Returns(Date(2011, 3, 16, 11, 0));
+
+            _stockBrokerClient.PlaceOrders($"GOOG 1 {price} B");
+
+            _display.Received(1).Print($"3/16/2011 11:00 AM Buy: € {FormatAmount(price)}, Sell: € 0.00");
+        }
+
+        [Test]
+        public void place_1_buy_order_of_2_stock()
+        {
+            _calendar.GetDate().Returns(Date(1999, 3, 5, 16, 0));
+
+            _stockBrokerClient.PlaceOrders($"GOOG 2 2 B");
+
+            var expectedPrice = 4m;
+            _display.Received(1).Print($"3/5/1999 4:00 PM Buy: € {FormatAmount(expectedPrice)}, Sell: € 0.00");
+        }
+
+        private static string FormatAmount(decimal amount)
+        {
+            return amount.ToString("F2", new CultureInfo("en-us"));
+        }
+
+        private static DateTime Date(int year, int month, int day, int hour, int minute)
+        {
+            return new DateTime(year, month, day, hour, minute, 0);
         }
     }
 }

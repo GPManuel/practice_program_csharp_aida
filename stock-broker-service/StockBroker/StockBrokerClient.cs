@@ -1,3 +1,6 @@
+using System;
+using System.Globalization;
+
 namespace StockBroker;
 
 public class StockBrokerClient
@@ -15,6 +18,25 @@ public class StockBrokerClient
 
     public void PlaceOrders(string orderSequence)
     {
-        _display.Show(new Summary(_calendar.GetDate(), 0m, 0m));
+        var dateTime = _calendar.GetDate();
+        if (string.IsNullOrEmpty(orderSequence))
+        {
+            _display.Print($"{FormatDate(dateTime)} Buy: € 0.00, Sell: € 0.00");
+            return;
+        }
+
+        var price = decimal.Parse(orderSequence.Split(' ')[2]);
+        var quantity = int.Parse(orderSequence.Split(' ')[1]);
+        _display.Print($"{FormatDate(dateTime)} Buy: € {FormatAmount(price*quantity)}, Sell: € 0.00");
+    }
+
+    private string FormatAmount(decimal amount)
+    {
+        return amount.ToString("F2", new CultureInfo("es-us"));
+    }
+
+    private string FormatDate(DateTime dateTime)
+    {
+        return dateTime.ToString("g", new CultureInfo("en-US"));
     }
 }
