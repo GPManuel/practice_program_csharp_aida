@@ -2,5 +2,6 @@ namespace StockBroker;
 
 public interface StockBrokerService
 {
-    void PlaceOrder(Order order);
+    void PlaceBuyOrder(Order order);
+    void PlaceSellOrder(Order order);
 }
