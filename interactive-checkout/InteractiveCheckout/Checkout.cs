@@ -19,7 +19,7 @@ public class Checkout
             "(Mandatory to place order for " + product + ")");
     }
 
-    public virtual void ConfirmOrder()
+    public void ConfirmOrder()
     {
         if (!_termsAndConditionsAccepted.WasAccepted()) throw new OrderCancelledException(_product);
         if (_newsLetterSubscribed.WasAccepted()) _emailService.SubscribeUserFor(_product);
