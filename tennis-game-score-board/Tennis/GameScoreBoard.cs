@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Tennis;
 
 public class GameScoreBoard
@@ -6,6 +8,7 @@ public class GameScoreBoard
     private readonly Display _display;
     private int _playerOneScore;
     private int _playerTwoScore;
+    private readonly List<string> _scoreDisplays = new(){ "Love", "Fifteen", "Thirty", "Forty" };
 
     public GameScoreBoard(RefereeInput refereeInput, Display display)
     {
@@ -17,11 +20,11 @@ public class GameScoreBoard
 
     public void StartGame() {
         Score();
-        _display.Show($"{GetPlayerOneScoreDisplay()} {GetPlayerTwoScoreDisplay()}");
+        _display.Show($"{GetPlayerScoreDisplay(_playerOneScore)} {GetPlayerScoreDisplay(_playerTwoScore)}");
         Score();
-        _display.Show($"{GetPlayerOneScoreDisplay()} {GetPlayerTwoScoreDisplay()}");
+        _display.Show($"{GetPlayerScoreDisplay(_playerOneScore)} {GetPlayerScoreDisplay(_playerTwoScore)}");
         Score();
-        _display.Show($"{GetPlayerOneScoreDisplay()} {GetPlayerTwoScoreDisplay()}");
+        _display.Show($"{GetPlayerScoreDisplay(_playerOneScore)} {GetPlayerScoreDisplay(_playerTwoScore)}");
         Score();
         var winner = GetWinner();
         _display.Show($"Player {winner} has won!!\nIt was a nice game.\nBye now");
@@ -37,19 +40,9 @@ public class GameScoreBoard
         return "2";
     }
 
-    private string GetPlayerTwoScoreDisplay()
+    private string GetPlayerScoreDisplay(int playerScore)
     {
-        if (_playerTwoScore == 3) return "Forty";
-        if (_playerTwoScore == 2) return "Thirty";
-        if (_playerTwoScore == 1) return "Fifteen";
-        return "Love";
-    }
-
-    private string GetPlayerOneScoreDisplay() {
-        if (_playerOneScore == 3) return "Forty";
-        if (_playerOneScore == 2) return "Thirty";
-        if (_playerOneScore == 1) return "Fifteen";
-        return "Love";
+        return _scoreDisplays[playerScore];
     }
 
     private void Score() {
