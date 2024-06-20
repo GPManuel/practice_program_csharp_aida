@@ -14,5 +14,6 @@ public class GameScoreBoard
     public void StartGame()
     {
         _display.Show("Fifteen Love");
+        _display.Show("Thirty Love");
     }
 }
