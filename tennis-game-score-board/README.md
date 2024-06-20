@@ -10,8 +10,8 @@ Examples:
 11 -> Thirty  Love
 111 -> Forty  Love
 1111 -> player 1 wons
+2222 -> player 2 wons
 2 -> Love Fifteen
 1112 -> Forty Fifteen
-2222 -> player 2 wons
 121212 -> Deuce
 1212121 -> Advantage player 1
