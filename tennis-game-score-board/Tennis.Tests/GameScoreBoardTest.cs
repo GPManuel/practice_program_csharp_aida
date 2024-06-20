@@ -45,4 +45,19 @@ public class GameScoreBoardTest
         display.Received(1).Show("Thirty Love");
         display.Received(1).Show("Forty Love");
     }
+
+    [Test]
+    public void player_1_win_4_points_and_win_the_match() {
+        var refereeInput = Substitute.For<RefereeInput>();
+        var display = Substitute.For<Display>();
+        var gameScoreBoard = new GameScoreBoard(refereeInput, display);
+        refereeInput.GetScore().Returns("score 1", "score 1", "score 1", "score 1");
+
+        gameScoreBoard.StartGame();
+
+        display.Received(1).Show("Fifteen Love");
+        display.Received(1).Show("Thirty Love");
+        display.Received(1).Show("Forty Love");
+        display.Received(1).Show("Player 1 has won!!\nIt was a nice game.\nBye now");
+    }
 }

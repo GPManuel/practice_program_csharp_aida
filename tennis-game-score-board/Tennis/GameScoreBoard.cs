@@ -16,5 +16,6 @@ public class GameScoreBoard
         _display.Show("Fifteen Love");
         _display.Show("Thirty Love");
         _display.Show("Forty Love");
+        _display.Show("Player 1 has won!!\nIt was a nice game.\nBye now");
     }
 }
