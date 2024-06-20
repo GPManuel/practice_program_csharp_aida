@@ -31,4 +31,18 @@ public class GameScoreBoardTest
         display.Received(1).Show("Fifteen Love");
         display.Received(1).Show("Thirty Love");
     }
+
+    [Test]
+    public void player_1_win_3_points() {
+        var refereeInput = Substitute.For<RefereeInput>();
+        var display = Substitute.For<Display>();
+        var gameScoreBoard = new GameScoreBoard(refereeInput, display);
+        refereeInput.GetScore().Returns("score 1", "score 1", "score 1");
+
+        gameScoreBoard.StartGame();
+
+        display.Received(1).Show("Fifteen Love");
+        display.Received(1).Show("Thirty Love");
+        display.Received(1).Show("Forty Love");
+    }
 }
