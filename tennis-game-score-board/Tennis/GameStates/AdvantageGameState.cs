@@ -30,7 +30,7 @@ internal class AdvantageGameState : GameState
 
     public override string CurrentScore()
     {
-        if (_player1.HasAdvantageOver(_player2))
+        if (_player1.GetScore() > _player2.GetScore())
         {
             return "Advantage Forty";
         }

@@ -22,7 +22,7 @@ internal class FinalGameState : GameState
     public override string CurrentScore()
     {
         string winner = "1";
-        if (_player2.Won(_player1))
+        if (_player2.GetScore() > _player1.GetScore())
         {
             winner = "2";
         }

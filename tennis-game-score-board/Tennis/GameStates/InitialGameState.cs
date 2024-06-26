@@ -21,11 +21,6 @@ internal class InitialGameState : GameState
             return new DeuceGameState(_player1, _player2);
         }
 
-        if (_player1.HasAdvantageOver(_player2))
-        {
-            return new AdvantageGameState(_player1, _player2);
-        }
-
         return this;
 
     }
@@ -41,11 +36,6 @@ internal class InitialGameState : GameState
         if (_player2.IsDeuce(_player1))
         {
             return new DeuceGameState(_player1, _player2);
-        }
-
-        if (_player2.HasAdvantageOver(_player2))
-        {
-            return new AdvantageGameState(_player1, _player2);
         }
 
         return this;
