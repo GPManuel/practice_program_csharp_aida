@@ -45,4 +45,9 @@ public class Player
     {
         return GetScore() == 3;
     }
+
+    public bool IsOverThirty()
+    {
+        return GetScore() > 2;
+    }
 }

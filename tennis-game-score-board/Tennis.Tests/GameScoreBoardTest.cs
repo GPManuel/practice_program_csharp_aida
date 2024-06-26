@@ -75,4 +75,48 @@ public class GameScoreBoardTest
         _display.Received(1).Show("Player 1 has won!!\nIt was a nice game.\nBye now");
         _display.Received(8).Show(Arg.Any<string>());
     }
+
+    [Test]
+    public void player_2_won_with_advantage()
+    {
+        _refereeInput.GetScore().Returns(Player2Scored, Player1Scored, Player2Scored, Player1Scored, Player2Scored, Player1Scored, Player2Scored, Player2Scored);
+
+        _gameScoreBoard.StartGame();
+
+        Received.InOrder(() =>
+        {
+            _display.Received().Show("Love Fifteen");
+            _display.Received().Show("Fifteen Fifteen");
+            _display.Received().Show("Fifteen Thirty");
+            _display.Received().Show("Thirty Thirty");
+            _display.Received().Show("Thirty Forty");
+            _display.Received().Show("Deuce");
+            _display.Received().Show("Forty Advantage");
+            _display.Received().Show("Player 2 has won!!\nIt was a nice game.\nBye now");
+        });
+        _display.Received(8).Show(Arg.Any<string>());
+    }
+
+    [Test]
+    public void player_2_won_with_2_advantage()
+    {
+        _refereeInput.GetScore().Returns(Player2Scored, Player1Scored, Player2Scored, Player1Scored, Player2Scored, Player1Scored, Player2Scored, Player1Scored, Player2Scored, Player2Scored);
+
+        _gameScoreBoard.StartGame();
+
+        Received.InOrder(() =>
+        {
+            _display.Received().Show("Love Fifteen");
+            _display.Received().Show("Fifteen Fifteen");
+            _display.Received().Show("Fifteen Thirty");
+            _display.Received().Show("Thirty Thirty");
+            _display.Received().Show("Thirty Forty");
+            _display.Received().Show("Deuce");
+            _display.Received().Show("Forty Advantage");
+            _display.Received().Show("Deuce");
+            _display.Received().Show("Forty Advantage");
+            _display.Received().Show("Player 2 has won!!\nIt was a nice game.\nBye now");
+        });
+        _display.Received(10).Show(Arg.Any<string>());
+    }
 }
