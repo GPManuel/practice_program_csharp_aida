@@ -1,3 +1,4 @@
+using System.ComponentModel.Design;
 using System.Xml.Linq;
 using static System.Formats.Asn1.AsnWriter;
 
@@ -71,7 +72,7 @@ public class Game
 
     private bool IsOver()
     {
-        return _player1.IsOverForty()|| _player2.IsOverForty();
+        return (_player1.IsOverForty() || _player2.IsOverForty()) && ((_player1.GetScore() > _player2.GetScore()+1 || _player2.GetScore() > _player1.GetScore()+1));
     }
 
     private void ShowCurrentScore()
@@ -79,6 +80,10 @@ public class Game
         if (_player1.GetScore() == _player2.GetScore() && _player1.PlayerScoreIsForty())
         {
             _display.Show("Deuce");
+        }
+        else if (_player1.IsOverForty() && _player2.PlayerScoreIsForty() && _player1.GetScore() == _player2.GetScore()+1)
+        {
+            _display.Show("Advantage Forty");
         }
         else
         {
