@@ -25,8 +25,6 @@ public class Game
         {
             ScorePoint();
         }
-
-        ShowGameOverMessage();
     }
 
     private bool IsOver()
@@ -37,7 +35,12 @@ public class Game
     private void ScorePoint()
     {
         AssignPointToPlayer();
-        ShowCurrentScore();
+        PrintScore();
+    }
+
+    private void PrintScore()
+    {
+        _display.Show(_gameState.CurrentScore());
     }
 
     private void AssignPointToPlayer()
@@ -56,66 +59,5 @@ public class Game
     private static bool InputIsPlayer1Score(string score)
     {
         return score.Equals("score 1");
-    }
-
-    private void ShowGameOverMessage()
-    {
-        var winner = GetWinnerIdentifier();
-
-        _display.Show($"Player {winner} has won!!\nIt was a nice game.\nBye now");
-    }
-
-    private string GetWinnerIdentifier()
-    {
-        if (_player1.Won(_player2))
-        {
-            return "1";
-        }
-
-        return "2";
-    }
-
-    private void ShowCurrentScore()
-    {
-        if (_player1.IsDeuce(_player2))
-        {
-            _display.Show("Deuce");
-            return;
-        }
-
-        if (_player1.HasAdvantageOver(_player2))
-        {
-            _display.Show("Advantage Forty");
-            return;
-        }
-
-        if (_player2.HasAdvantageOver(_player1))
-        {
-            _display.Show("Forty Advantage");
-            return;
-        }
-
-        if (_player1.IsPlayingInitialPhase(_player2))
-        {
-            _display.Show($"{GetScoreDisplayBeforeDeuce(_player1)} {GetScoreDisplayBeforeDeuce(_player2)}");
-        }
-    }
-
-    private string GetScoreDisplayBeforeDeuce(Player player)
-    {
-        if (player.GetScore() == 0)
-        {
-            return "Love";
-        }
-        if (player.GetScore() == 1)
-        {
-            return "Fifteen";
-        }
-        if (player.GetScore() == 2)
-        {
-            return "Thirty";
-        }
-
-        return "Forty";
     }
 }
