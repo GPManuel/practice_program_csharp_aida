@@ -8,7 +8,7 @@ public class Game
     private readonly RefereeInput _refereeInput;
     private readonly Player _player1;
     private readonly Player _player2;
-    private readonly GameState _gameState;
+    private GameState _gameState;
 
     public Game(Display display, RefereeInput refereeInput)
     {
@@ -31,7 +31,7 @@ public class Game
 
     private bool IsOver()
     {
-        return _player1.Won(_player2) || _player2.Won(_player1);
+        return _gameState.Finish();
     }
 
     private void ScorePoint()
@@ -45,11 +45,12 @@ public class Game
         var score = _refereeInput.GetScore();
         if (InputIsPlayer1Score(score))
         {
-            _gameState.Player1Scored();
+            _gameState = _gameState.Player1Scored();
             return;
         }
 
-        _gameState.Player2Scored();
+        _gameState = _gameState.Player2Scored();
+
     }
 
     private static bool InputIsPlayer1Score(string score)
