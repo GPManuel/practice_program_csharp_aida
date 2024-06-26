@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Tennis;
+namespace Tennis.GameStates;
 
 public abstract class GameState
 {

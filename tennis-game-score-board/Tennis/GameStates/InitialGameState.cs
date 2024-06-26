@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace Tennis;
+namespace Tennis.GameStates;
 
 internal class InitialGameState : GameState
 {
@@ -25,7 +25,7 @@ internal class InitialGameState : GameState
         {
             return new AdvantageGameState(_player1, _player2);
         }
-            
+
         return this;
 
     }

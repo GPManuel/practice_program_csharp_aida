@@ -1,4 +1,4 @@
-namespace Tennis;
+namespace Tennis.GameStates;
 
 internal class DeuceGameState : GameState
 {
