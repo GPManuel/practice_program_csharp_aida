@@ -1,11 +1,14 @@
 namespace Tennis;
 
+
+
 public class Game
 {
     private readonly Display _display;
     private readonly RefereeInput _refereeInput;
     private readonly Player _player1;
     private readonly Player _player2;
+    private readonly GameState _gameState;
 
     public Game(Display display, RefereeInput refereeInput)
     {
@@ -13,6 +16,7 @@ public class Game
         _refereeInput = refereeInput;
         _player1 = new Player();
         _player2 = new Player();
+        _gameState = new InitialGameState(_player1, _player2);
     }
 
     public void Start()
@@ -41,11 +45,11 @@ public class Game
         var score = _refereeInput.GetScore();
         if (InputIsPlayer1Score(score))
         {
-            _player1.ScorePoint();
+            _gameState.Player1Scored();
             return;
         }
 
-        _player2.ScorePoint();
+        _gameState.Player2Scored();
     }
 
     private static bool InputIsPlayer1Score(string score)
