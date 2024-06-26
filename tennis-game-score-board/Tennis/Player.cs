@@ -3,37 +3,15 @@ namespace Tennis;
 public class Player
 {
     private int score;
+
     public Player()
     {
         score = 0;
     }
 
-    public void WinPoint()
+    public void ScorePoint()
     {
         score++;
-    }
-
-    public bool IsOverForty()
-    {
-        return score > 3;
-    }
-
-    public string GetScoreDisplayBeforeDeuce()
-    {
-        if (score == 0)
-        {
-            return "Love";
-        }
-        if (score == 1)
-        {
-            return "Fifteen";
-        }
-        if (score == 2)
-        {
-            return "Thirty";
-        }
-
-        return "Forty";
     }
 
     public int GetScore()
@@ -41,13 +19,33 @@ public class Player
         return score;
     }
 
-    public bool PlayerScoreIsForty()
+    public bool IsDeuce(Player otherPlayer)
     {
-        return GetScore() == 3;
+        return score == otherPlayer.score && IsOverThirty();
     }
 
-    public bool IsOverThirty()
+    public bool HasAdvantageOver(Player otherPlayer)
     {
-        return GetScore() > 2;
+        return otherPlayer.IsOverThirty() && score == otherPlayer.score + 1;
+    }
+
+    public bool IsPlayingInitialPhase(Player otherPlayer)
+    {
+        return !IsOverForty() && !otherPlayer.IsOverForty();
+    }
+
+    public bool Won(Player otherPlayer)
+    {
+        return IsOverForty() && score > otherPlayer.score + 1;
+    }
+
+    private bool IsOverThirty()
+    {
+        return score > 2;
+    }
+
+    private bool IsOverForty()
+    {
+        return score > 3;
     }
 }

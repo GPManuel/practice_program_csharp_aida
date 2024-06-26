@@ -1,7 +1,3 @@
-using System.ComponentModel.Design;
-using System.Xml.Linq;
-using static System.Formats.Asn1.AsnWriter;
-
 namespace Tennis;
 
 public class Game
@@ -29,6 +25,11 @@ public class Game
         ShowGameOverMessage();
     }
 
+    private bool IsOver()
+    {
+        return _player1.Won(_player2) || _player2.Won(_player1);
+    }
+
     private void ScorePoint()
     {
         AssignPointToPlayer();
@@ -38,63 +39,78 @@ public class Game
     private void AssignPointToPlayer()
     {
         var score = _refereeInput.GetScore();
-        if (score.Equals("score 1"))
+        if (InputIsPlayer1Score(score))
         {
-            _player1.WinPoint();
+            _player1.ScorePoint();
+            return;
         }
-        else
-        {
-            _player2.WinPoint();
-        }
+
+        _player2.ScorePoint();
+    }
+
+    private static bool InputIsPlayer1Score(string score)
+    {
+        return score.Equals("score 1");
     }
 
     private void ShowGameOverMessage()
     {
-        var winner = DecideWinner();
+        var winner = GetWinnerIdentifier();
 
         _display.Show($"Player {winner} has won!!\nIt was a nice game.\nBye now");
     }
 
-    private string DecideWinner()
+    private string GetWinnerIdentifier()
     {
-        string winner;
-        if (_player1.GetScore() > _player2.GetScore())
+        if (_player1.Won(_player2))
         {
-            winner = "1";
-        }
-        else
-        {
-            winner = "2";
+            return "1";
         }
 
-        return winner;
-    }
-
-    private bool IsOver()
-    {
-        return (_player1.IsOverForty() || _player2.IsOverForty()) && (_player1.GetScore() > _player2.GetScore()+1 || _player2.GetScore() > _player1.GetScore()+1);
+        return "2";
     }
 
     private void ShowCurrentScore()
     {
-        if (_player1.GetScore() == _player2.GetScore() && _player1.IsOverThirty())
+        if (_player1.IsDeuce(_player2))
         {
             _display.Show("Deuce");
+            return;
         }
-        else if (_player1.IsOverForty() && _player2.IsOverThirty() && _player1.GetScore() == _player2.GetScore()+1)
+
+        if (_player1.HasAdvantageOver(_player2))
         {
             _display.Show("Advantage Forty");
+            return;
         }
-        else if (_player2.IsOverForty() && _player1.IsOverThirty() && _player2.GetScore() == _player1.GetScore() + 1)
+
+        if (_player2.HasAdvantageOver(_player1))
         {
             _display.Show("Forty Advantage");
+            return;
         }
-        else
+
+        if (_player1.IsPlayingInitialPhase(_player2))
         {
-            if (!_player1.IsOverForty() && !_player2.IsOverForty())
-            {
-                _display.Show($"{_player1.GetScoreDisplayBeforeDeuce()} {_player2.GetScoreDisplayBeforeDeuce()}");
-            }
+            _display.Show($"{GetScoreDisplayBeforeDeuce(_player1)} {GetScoreDisplayBeforeDeuce(_player2)}");
         }
+    }
+
+    private string GetScoreDisplayBeforeDeuce(Player player)
+    {
+        if (player.GetScore() == 0)
+        {
+            return "Love";
+        }
+        if (player.GetScore() == 1)
+        {
+            return "Fifteen";
+        }
+        if (player.GetScore() == 2)
+        {
+            return "Thirty";
+        }
+
+        return "Forty";
     }
 }
