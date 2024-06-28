@@ -29,11 +29,6 @@ public class Player
         return otherPlayer.IsOverThirty() && score == otherPlayer.score + 1;
     }
 
-    public bool IsPlayingInitialPhase(Player otherPlayer)
-    {
-        return !IsOverForty() && !otherPlayer.IsOverForty();
-    }
-
     public bool Won(Player otherPlayer)
     {
         return IsOverForty() && score > otherPlayer.score + 1;
