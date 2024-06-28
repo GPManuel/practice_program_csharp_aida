@@ -23,7 +23,7 @@ namespace InspirationOfTheDay.Tests
         }
 
         [Test]
-        public void get_1_quote_and_send_to_the_single_employee()
+        public void obtain_1_quote_and_send_to_the_single_employee()
         {
             var wordChosen = "aWord";
             var quote = $"Quote than contain {wordChosen}";
@@ -34,6 +34,23 @@ namespace InspirationOfTheDay.Tests
             _inspirationOfTheDay.InspireSomeone(wordChosen);
 
             _inspirationSender.Received(1).SendQuote(quote, employee.Contact);
+        }
+
+        [Test]
+        public void obtain_several_quotes_and_send_a_random_one_to_the_single_employee()
+        {
+            var wordChosen = "aWord";
+            var quote = $"Quote than contain {wordChosen}";
+            var otherQuote = $"{wordChosen} in a quote";
+            _quotesService.GetQoutesBy(wordChosen).Returns(new List<string>() { quote, otherQuote});
+            var employee = new Employee("Name", "Contact");
+            _employeesRepository.GetEmployees().Returns(new List<Employee>() { employee });
+            var randomNumberForQuote = 1;
+            _randomGenerator.GetNumber().Returns(randomNumberForQuote);
+
+            _inspirationOfTheDay.InspireSomeone(wordChosen);
+
+            _inspirationSender.Received(1).SendQuote(otherQuote, employee.Contact);
         }
     }
 }
