@@ -2,5 +2,5 @@ namespace InspirationOfTheDay;
 
 public interface RandomGenerator    
 {
-    int GetNumber();
+    int GetNumberLowerThan(int i);
 }

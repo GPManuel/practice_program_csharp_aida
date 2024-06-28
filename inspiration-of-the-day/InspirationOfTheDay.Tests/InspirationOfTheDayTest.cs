@@ -30,6 +30,7 @@ namespace InspirationOfTheDay.Tests
             _quotesService.GetQoutesBy(wordChosen).Returns(new List<string>() { quote });
             var employee = new Employee("Name", "Contact");
             _employeesRepository.GetEmployees().Returns(new List<Employee>() { employee });
+            _randomGenerator.GetNumberLowerThan(Arg.Any<int>()).Returns(0);
 
             _inspirationOfTheDay.InspireSomeone(wordChosen);
 
@@ -42,15 +43,36 @@ namespace InspirationOfTheDay.Tests
             var wordChosen = "aWord";
             var quote = $"Quote than contain {wordChosen}";
             var otherQuote = $"{wordChosen} in a quote";
-            _quotesService.GetQoutesBy(wordChosen).Returns(new List<string>() { quote, otherQuote});
+            var quotes = new List<string>() { quote, otherQuote};
+            _quotesService.GetQoutesBy(wordChosen).Returns(quotes);
             var employee = new Employee("Name", "Contact");
-            _employeesRepository.GetEmployees().Returns(new List<Employee>() { employee });
-            var randomNumberForQuote = 1;
-            _randomGenerator.GetNumber().Returns(randomNumberForQuote);
+            var employees = new List<Employee>() { employee };
+            _employeesRepository.GetEmployees().Returns(employees);
+            _randomGenerator.GetNumberLowerThan(quotes.Count).Returns(1);
+            _randomGenerator.GetNumberLowerThan(employees.Count).Returns(0);
 
             _inspirationOfTheDay.InspireSomeone(wordChosen);
 
             _inspirationSender.Received(1).SendQuote(otherQuote, employee.Contact);
+        }
+
+        [Test]
+        public void send_quote_to_a_random_employee()
+        {
+            var wordChosen = "aWord";
+            var quote = $"Quote than contain {wordChosen}";
+            var quotes = new List<string>() { quote };
+            _quotesService.GetQoutesBy(wordChosen).Returns(quotes);
+            var employee = new Employee("Fulanito", "111");
+            var otherEmployee = new Employee("Menganita", "222");
+            var employees = new List<Employee>() { employee, otherEmployee };
+            _employeesRepository.GetEmployees().Returns(employees);
+            _randomGenerator.GetNumberLowerThan(quotes.Count).Returns(0);
+            _randomGenerator.GetNumberLowerThan(employees.Count).Returns(1);
+
+            _inspirationOfTheDay.InspireSomeone(wordChosen);
+
+            _inspirationSender.Received(1).SendQuote(quote, otherEmployee.Contact);
         }
     }
 }

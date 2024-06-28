@@ -22,7 +22,8 @@ public class MotivationOfTheDay
     {
         var quotes = _quotesService.GetQoutesBy(word);
         var employees = _employeesRepository.GetEmployees();
-        var randomNumberForQuote = _randomGenerator.GetNumber();
-        _inspirationSender.SendQuote(quotes[randomNumberForQuote], employees.First().Contact);
+        var randomNumberForQuote = _randomGenerator.GetNumberLowerThan(quotes.Count);
+        var randomNumberForEmployee = _randomGenerator.GetNumberLowerThan(employees.Count);
+        _inspirationSender.SendQuote(quotes[randomNumberForQuote], employees[randomNumberForEmployee].Contact);
     }
 }
